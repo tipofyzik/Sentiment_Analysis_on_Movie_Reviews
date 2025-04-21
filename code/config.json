@@ -7,7 +7,7 @@
     "DataPreprocessingParameters": {
         "path_to_standford_movie_reviews_dataset_cleaned": "./datasets/standford_movie_reviews_dataset_cleaned.csv",
         "path_to_sar14_dataset_cleaned": "./datasets/sar14_dataset_cleaned.csv",
-        "data_is_preprocessed": 1,
+        "data_is_preprocessed": 0,
         "spacy_batch_size": 256,
         "spacy_n_process": 1
     },
@@ -18,14 +18,14 @@
         "path_to_x_test_tfidf": "./features/x_test_tfidf.npz",
         "path_to_w2v_model": "./features/word2vec_model.bin",
         "path_to_w2v_features": "./features/word2vec_vectors.npy",
-        "tfidf_features_extracted": 1,
-        "word2vec_features_extracted": 1
+        "tfidf_features_extracted": 0,
+        "word2vec_features_extracted": 0
     },
     "ModelTrainerParameters": {
-        "logistic_regression_trained": 1,
-        "naive_bayes_trained": 1,
-        "random_forest_trained": 1,
-        "linear_svc_trained": 1
+        "logistic_regression_trained": 0,
+        "naive_bayes_trained": 0,
+        "random_forest_trained": 0,
+        "linear_svc_trained": 0
     },
     "GraphPlotterGridParameters": {},
     "ResultSaver": {
