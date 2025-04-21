@@ -11,7 +11,7 @@ Datasets: https://drive.google.com/drive/folders/1ACDrihk3dvMMEIhsVKuf3jsO6Rv7DD
 
 The original datasets are:  
 1. Standford's Large Movie Review Dataset aka IMBD dataset: https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews  
-2. SAR14: https://github.com/daiquocnguyen/SAR14?tab=readme-ov-file  
+2. SAR14 dataset: https://github.com/daiquocnguyen/SAR14?tab=readme-ov-file  
 
 ## 3. How to use
 
