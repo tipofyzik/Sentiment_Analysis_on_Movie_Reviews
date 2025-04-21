@@ -1,0 +1,36 @@
+{
+    "DatasetsPaths": {
+        "path_to_standford_movie_reviews_dataset": "./datasets/IMDB_Dataset_of_50K_Movie_Reviews/IMDB Dataset.csv",
+        "path_to_sar14_dataset_txt": "./datasets/SAR14/SAR14.txt",
+        "path_to_sar14_dataset_csv": "./datasets/SAR14/SAR14.csv"
+    },
+    "DataPreprocessingParameters": {
+        "path_to_standford_movie_reviews_dataset_cleaned": "./datasets/standford_movie_reviews_dataset_cleaned.csv",
+        "path_to_sar14_dataset_cleaned": "./datasets/sar14_dataset_cleaned.csv",
+        "data_is_preprocessed": 1,
+        "spacy_batch_size": 256,
+        "spacy_n_process": 1
+    },
+    "FeatureExtractorParameters": {
+        "path_to_features": "./features",
+        "path_to_tfidf_vectorizer": "./features/tfidf_vectorizer.pkl",
+        "path_to_x_train_tfidf": "./features/x_train_tfidf.npz",
+        "path_to_x_test_tfidf": "./features/x_test_tfidf.npz",
+        "path_to_w2v_model": "./features/word2vec_model.bin",
+        "path_to_w2v_features": "./features/word2vec_vectors.npy",
+        "tfidf_features_extracted": 1,
+        "word2vec_features_extracted": 1
+    },
+    "ModelTrainerParameters": {
+        "logistic_regression_trained": 1,
+        "naive_bayes_trained": 1,
+        "random_forest_trained": 1,
+        "linear_svc_trained": 1
+    },
+    "GraphPlotterGridParameters": {},
+    "ResultSaver": {
+        "path_to_results": "./results",
+        "path_to_tfidf_result_models": "./results/TF-IDF",
+        "path_to_w2v_result_models": "./results/Word2Vec"
+    }
+}
