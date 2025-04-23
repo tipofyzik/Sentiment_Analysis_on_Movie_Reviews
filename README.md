@@ -34,9 +34,40 @@ There are 4 classes ensure the program works:
 **· FeatureExtractor** extracts textual features from a review dataset. It utilizes two extraction algorithms: TF-IDF and Word2Vec.  
 **· ModelTrainer** trains various models to determine sentiment of the give review. Namely, there are four models: Logistic Regression, Linear SVM, Naive Bayes, and Random Forest.  
 
-**· PredictCustomReviewApp** is a separate class which is a GUI application for the sentiment prediction of a custom movie review. It can be run individually after model training.  
+**· PredictCustomReviewApp** is a separate class which is a GUI application for the sentiment prediction of a custom movie review. It can be run individually after models training.  
 
 ### 4.2. Config file
+Config file contains settings for different stages of data analysis and training. There are 6 parameter categories in this .json file:
+_**· DatasetsPaths:**_  
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+_**· DataPreprocessingParameters:**_  
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+_**· FeatureExtractorParameters:**_  
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+_**· ModelTrainerParameters:**_  
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+_**· GraphPlotterParameters:**_  
+&emsp;&emsp; —    
+_**· ResultSaver:**_  
+&emsp;&emsp; —    
+&emsp;&emsp; —    
+&emsp;&emsp; —    
 
 ### 4.3. Launch file
 
