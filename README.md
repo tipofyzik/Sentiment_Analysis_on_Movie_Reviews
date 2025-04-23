@@ -21,17 +21,26 @@ You need to intall Python with the version 3.11.3 and higher. All required modul
 ## 3. How to use
 There are three key files for the program to work: **SAR14ConverterToCSV.py**, **config.json**, and **app.py**.  
 **SAR14ConverterToCSV.py** — This file should be run before any other ones. It converts the original SAR14 dataset from .txt format to .csv one, which is more convenient to process by Python.  
-**config.json** — This file contains all crucial parameters for the code to work. See **"4.1. Config file"** section to look at what parameters are responsible for.  
+**config.json** — This file contains all crucial parameters for the code to work. See **"4.2. Config file"** section to look at what parameters are responsible for.  
 **app.py** — This file rins the entire program which, in turn, cleans data, encodes it, trains various supervised learning models and evaluates their quality.  
 
 Additionally, there is a file **PredictCustomReviewApp.py**, which might be run once all models are trained. It creates a window where the user can enter any custom review and get its sentiment as an outcome.  
 
 ## 4. Implementation
-### 4.1. Config file
+### 4.1. Classes
+There are 4 classes ensure the program works:  
+**· RawDataAnalyzer** analyzes the raw dataset to give a hint where the preprocess should start first. It looks for null values and prints the size of the initial datasets and their column names.  
+**· DataPreprocessor** cleans the data from stop words and punctuation. Additionally, makes all the text lowercase and lemmatizes it.  
+**· FeatureExtractor** extracts textual features from a review dataset. It utilizes two extraction algorithms: TF-IDF and Word2Vec.  
+**· ModelTrainer** trains various models to determine sentiment of the give review. Namely, there are four models: Logistic Regression, Linear SVM, Naive Bayes, and Random Forest.  
 
-### 4.2. Launch file
+**· PredictCustomReviewApp** is a separate class which is a GUI application for the sentiment prediction of a custom movie review. It can be run individually after model training.  
 
-### 4.3. Implementation specifics
+### 4.2. Config file
+
+### 4.3. Launch file
+
+### 4.4. Implementation specifics
 
 
 
