@@ -39,35 +39,35 @@ There are 4 classes ensure the program works:
 ### 4.2. Config file
 Config file contains settings for different stages of data analysis and training. There are 6 parameter categories in this .json file:
 _**· DatasetsPaths:**_  
-&emsp;&emsp; —    
-&emsp;&emsp; —    
-&emsp;&emsp; —    
+&emsp;&emsp; — path_to_standford_movie_reviews_dataset   
+&emsp;&emsp; — path_to_sar14_dataset_txt   
+&emsp;&emsp; — path_to_sar14_dataset_csv   
 _**· DataPreprocessingParameters:**_  
-&emsp;&emsp; —    
-&emsp;&emsp; —    
-&emsp;&emsp; —    
-&emsp;&emsp; —    
-&emsp;&emsp; —    
+&emsp;&emsp; — path_to_standford_movie_reviews_dataset_cleaned   
+&emsp;&emsp; — path_to_sar14_dataset_cleaned   
+&emsp;&emsp; — data_is_preprocessed   
+&emsp;&emsp; — spacy_batch_size   
+&emsp;&emsp; — spacy_n_process   
 _**· FeatureExtractorParameters:**_  
-&emsp;&emsp; —    
-&emsp;&emsp; —    
-&emsp;&emsp; —    
-&emsp;&emsp; —    
-&emsp;&emsp; —    
-&emsp;&emsp; —    
-&emsp;&emsp; —    
-&emsp;&emsp; —    
+&emsp;&emsp; — path_to_features   
+&emsp;&emsp; — path_to_tfidf_vectorizer   
+&emsp;&emsp; — path_to_x_train_tfidf   
+&emsp;&emsp; — path_to_x_test_tfidf   
+&emsp;&emsp; — path_to_w2v_model   
+&emsp;&emsp; — path_to_w2v_features   
+&emsp;&emsp; — tfidf_features_extracted   
+&emsp;&emsp; — word2vec_features_extracted   
 _**· ModelTrainerParameters:**_  
-&emsp;&emsp; —    
-&emsp;&emsp; —    
-&emsp;&emsp; —    
-&emsp;&emsp; —    
+&emsp;&emsp; — logistic_regression_trained   
+&emsp;&emsp; — naive_bayes_trained   
+&emsp;&emsp; — random_forest_trained   
+&emsp;&emsp; — linear_svc_trained   
 _**· GraphPlotterParameters:**_  
 &emsp;&emsp; —    
 _**· ResultSaver:**_  
-&emsp;&emsp; —    
-&emsp;&emsp; —    
-&emsp;&emsp; —    
+&emsp;&emsp; — path_to_results   
+&emsp;&emsp; — path_to_tfidf_result_models   
+&emsp;&emsp; — path_to_w2v_result_models   
 
 ### 4.3. Launch file
 
