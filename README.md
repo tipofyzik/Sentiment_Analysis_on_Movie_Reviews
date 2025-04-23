@@ -19,17 +19,19 @@ You need to intall Python with the version 3.11.3 and higher. All required modul
 
 
 ## 3. How to use
-There are three key files for the program to work: **SAR14ConverterToCSV.py**, **config.json**, and **app.py**.
+There are three key files for the program to work: **SAR14ConverterToCSV.py**, **config.json**, and **app.py**.  
+**SAR14ConverterToCSV.py** — This file should be run before any other ones. It converts the original SAR14 dataset from .txt format to .csv one, which is more convenient to process by Python.  
+**config.json** — This file contains all crucial parameters for the code to work. See **"4.1. Config file"** section to look at what parameters are responsible for.  
+**app.py** — This file rins the entire program which, in turn, cleans data, encodes it, trains various supervised learning models and evaluates their quality.  
+
+Additionally, there is a file **PredictCustomReviewApp.py**, which might be run once all models are trained. It creates a window where the user can enter any custom review and get its sentiment as an outcome.  
 
 ## 4. Implementation
+### 4.1. Config file
 
-### 4.1. Classes
+### 4.2. Launch file
 
-### 4.2. Config file
-
-### 4.3. Launch file
-
-### 4.4. Implementation specifics
+### 4.3. Implementation specifics
 
 
 
