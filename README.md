@@ -37,7 +37,7 @@ There are 4 classes ensure the program works:
 **· PredictCustomReviewApp** is a separate class which is a GUI application for the sentiment prediction of a custom movie review. It can be run individually after models training.  
 
 ### 4.2. Config file
-Config file contains settings for different stages of data analysis and training. There are 6 parameter categories in this .json file:
+Config file contains settings for different stages of data analysis and training. There are 6 parameter categories in this .json file:  
 _**· DatasetsPaths:**_  
 &emsp;&emsp; — path_to_standford_movie_reviews_dataset   
 &emsp;&emsp; — path_to_sar14_dataset_txt   
