@@ -7,7 +7,7 @@ I uploaded datasets to google drive, so they can be simply put into the **code**
 
 The references to the original datasets:  
 1. Standford's Large Movie Review Dataset: https://ai.stanford.edu/~amaas/data/sentiment/  
-However, for convenience, I used its .csv version (IMBD dataset) published on kaggle: https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews   
+**However, for convenience, I used its .csv version (IMBD dataset) published on kaggle**: https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews   
 2. SAR14 dataset: https://github.com/daiquocnguyen/SAR14?tab=readme-ov-file  
 
 ## 2. Program installation
