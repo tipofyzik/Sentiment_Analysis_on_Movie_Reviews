@@ -19,7 +19,7 @@ You need to intall Python with the version 3.11.3 and higher. All required modul
 
 
 ## 3. How to use
-
+There are three key files for the program to work: **SAR14ConverterToCSV.py**, **config.json**, and **app.py**.
 
 ## 4. Implementation
 
