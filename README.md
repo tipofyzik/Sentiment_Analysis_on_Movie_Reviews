@@ -10,6 +10,8 @@ The references to the original datasets:
 **However, for convenience, I used its .csv version (IMBD dataset) published on kaggle**: https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews   
 2. SAR14 dataset: https://github.com/daiquocnguyen/SAR14?tab=readme-ov-file  
 
+You can get acquainted with the results on Kaggle: https://www.kaggle.com/code/tipofyzik/sentiment-analysis-of-movie-reviews  
+
 ## 2. Program installation
 ### Requirements 
 You need to intall Python with the version 3.11.3 and higher. All required modules to install you can find in the **"requirements.txt"** file. Download the folder "code" from github and the folder "datasets" from google drive. The latter folder put into the first one.  
