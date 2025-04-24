@@ -39,35 +39,35 @@ There are 4 classes ensure the program works:
 ### 4.2. Config file
 Config file contains settings for different stages of data analysis and training. There are 6 parameter categories in this .json file:  
 _**· DatasetsPaths:**_  
-&emsp;&emsp; — path_to_standford_movie_reviews_dataset   
-&emsp;&emsp; — path_to_sar14_dataset_txt   
-&emsp;&emsp; — path_to_sar14_dataset_csv   
+&emsp;&emsp; — path_to_standford_movie_reviews_dataset: Path to the Standford's Movie Review dataset in .csv format.   
+&emsp;&emsp; — path_to_sar14_dataset_txt: Path to the SAR14 dataset in .txt format.   
+&emsp;&emsp; — path_to_sar14_dataset_csv: Path to the SAR14 dataset in .csv format.  
 _**· DataPreprocessingParameters:**_  
-&emsp;&emsp; — path_to_standford_movie_reviews_dataset_cleaned   
-&emsp;&emsp; — path_to_sar14_dataset_cleaned   
-&emsp;&emsp; — data_is_preprocessed   
-&emsp;&emsp; — spacy_batch_size   
-&emsp;&emsp; — spacy_n_process   
+&emsp;&emsp; — path_to_standford_movie_reviews_dataset_cleaned: Path to the cleaned from noise Standford's Movie Review dataset in .csv format (to avoid repetition of the cleaning process).   
+&emsp;&emsp; — path_to_sar14_dataset_cleaned: Path to the cleaned from noise SAR14 dataset in .csv format (to avoid repetition of the cleaning process).  
+&emsp;&emsp; — data_is_preprocessed: Shows whether data was preprocessed or not. If the value is 0, then the original data have not been preprocessed yet, otherwise it have been (to avoid repetition of the cleaning process).  
+&emsp;&emsp; — spacy_batch_size: Determines how many rewiews should be preprocessed simultaneously. It is used to speed up preprocessing.  
+&emsp;&emsp; — spacy_n_process: Multiprocessing to speed up preprocessing. If the value is -1, then all cpu cores are used. In this case, I left 1 core to for preprocessing.  
 _**· FeatureExtractorParameters:**_  
-&emsp;&emsp; — path_to_features   
-&emsp;&emsp; — path_to_tfidf_vectorizer   
-&emsp;&emsp; — path_to_x_train_tfidf   
-&emsp;&emsp; — path_to_x_test_tfidf   
-&emsp;&emsp; — path_to_w2v_model   
-&emsp;&emsp; — path_to_w2v_features   
-&emsp;&emsp; — tfidf_features_extracted   
-&emsp;&emsp; — word2vec_features_extracted   
+&emsp;&emsp; — path_to_features: Path to save extracted features (to avoid repetition of the feature extraction process).    
+&emsp;&emsp; — path_to_tfidf_vectorizer: Path to the TF-IDF vectorizer that will be used further to prepare custom review for evaluation.   
+&emsp;&emsp; — path_to_x_train_tfidf: Path to the train part of the TF-IDF features (to avoid repetition of the feature extraction process).  
+&emsp;&emsp; — path_to_x_test_tfidf: Path to the test part of the TF-IDF features (to avoid repetition of the feature extraction process).    
+&emsp;&emsp; — path_to_w2v_model: Path to the Word2Vec that will be used further to prepare custom review for evaluation.    
+&emsp;&emsp; — path_to_w2v_features: Path to the Word2Vec features (to avoid repetition of the feature extraction process).      
+&emsp;&emsp; — tfidf_features_extracted: Shows whether TF-IDF features are extracted or not. If the value is 0, then they have not been extracted yet, otherwise they have been (to avoid repetition of the feature extraction process).     
+&emsp;&emsp; — word2vec_features_extracted: Shows whether Word2Vec features are extracted or not. If the value is 0, then they have not been extracted yet, otherwise they have been (to avoid repetition of the feature extraction process).         
 _**· ModelTrainerParameters:**_  
-&emsp;&emsp; — logistic_regression_trained   
-&emsp;&emsp; — naive_bayes_trained   
-&emsp;&emsp; — random_forest_trained   
-&emsp;&emsp; — linear_svc_trained   
+&emsp;&emsp; — logistic_regression_trained: Shows whether logistic regression model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).           
+&emsp;&emsp; — naive_bayes_trained: Shows whether naive bayes model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).  
+&emsp;&emsp; — random_forest_trained: Shows whether random forest model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).  
+&emsp;&emsp; — linear_svc_trained: Shows whether linear SVM is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).  
 _**· GraphPlotterParameters:**_  
 &emsp;&emsp; —    
 _**· ResultSaver:**_  
-&emsp;&emsp; — path_to_results   
-&emsp;&emsp; — path_to_tfidf_result_models   
-&emsp;&emsp; — path_to_w2v_result_models   
+&emsp;&emsp; — path_to_results: Path to results folder.   
+&emsp;&emsp; — path_to_tfidf_result_models: Path to models trained on TF-IDF features.   
+&emsp;&emsp; — path_to_w2v_result_models: Path to models trained on Word2Vec features.   
 
 ### 4.3. Launch file
 
