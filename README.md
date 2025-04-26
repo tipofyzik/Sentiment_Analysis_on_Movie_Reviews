@@ -113,12 +113,13 @@ However, an issue arised during the training process. Namely, Word2Vec features 
 ### Models' accuracy
 <table>
   <tr>
-  ![image](https://github.com/user-attachments/assets/e01440cf-f76c-46eb-ba25-277781d6cfcd)
+    <td><img src="https://github.com/user-attachments/assets/e01440cf-f76c-46eb-ba25-277781d6cfcd" width="300"/></td>
   </tr>
   <tr>
-  ![image](https://github.com/user-attachments/assets/8c4afdaf-48af-454d-ae8e-c1ecfdb09ba4)
-</tr>
-</table>  
+    <td><img src="https://github.com/user-attachments/assets/8c4afdaf-48af-454d-ae8e-c1ecfdb09ba4" width="300"/></td>
+  </tr>
+</table>
+ 
 
 
 
