@@ -80,26 +80,34 @@ The **"app.py"** file analyzes data, preprocesses it, extracts features and trai
 
 ### 4.4. Implementation specifics
 **Data preprocessing:**  
+Data preprocessing is accomplished in two steps:  
+1. Manual cleaning from the noise. Text is lowercased and cleaned from the html tags, numbers, punctuation, and stop words.  
+2. Lemmatiztion via spacy nlp model.  
+This approach is appriximately **two times faster** than cleaning data via the spacy nlp model only, while the quality of cleaning process is almost preserved.  
 
-
+To provide an accurate remove of stop words the set of custom stop words is added. The choice of words can be explained by the following logic. The first thing that takes place is cleaning from the punctuation, therefore contractions, such as wouldn't, he'll, etc. are divided into two parts which are not read as stop words by the original static set from the spacy library. Thus, we expand the original list by possible beginnings and endings (see **self.__custom_stop_words** variable).    
 '''python
-    def __init__(self, spacy_batch_size: int, spacy_n_process: int):
-        """
-        Initializes the DataPreprocessor with the provided batch size for lemmatization 
-        and the number of processes for spacy model.
+  def __init__(self, spacy_batch_size: int, spacy_n_process: int):
+      """
+      Initializes the DataPreprocessor with the provided batch size for lemmatization 
+      and the number of processes for spacy model.
 
-        Args:
-            spacy_batch_size (int): The batch size for faster lemmatization.
-            spacy_n_process (int): The number of processes for spacy model.
-        """
-        self.__nlp = spacy.load("en_core_web_sm", disable=["parser", "ner", "textcat"])
-        self.__stop_words = set(spacy.load("en_core_web_sm").Defaults.stop_words)  
-        self.__custom_stop_words = {"t", "ll", "s", "d", 
-                                    "couldn", "wouldn", "mightn", "mayn", 
-                                    "don", "doesn"}
-        self.__stop_words.update(self.__custom_stop_words)
-        ...
+      Args:
+          spacy_batch_size (int): The batch size for faster lemmatization.
+          spacy_n_process (int): The number of processes for spacy model.
+      """
+      self.__nlp = spacy.load("en_core_web_sm", disable=["parser", "ner", "textcat"])
+      self.__stop_words = set(spacy.load("en_core_web_sm").Defaults.stop_words)  
+      self.__custom_stop_words = {"t", "ll", "s", "d", 
+                                  "couldn", "wouldn", "mightn", "mayn", 
+                                  "don", "doesn"}
+      self.__stop_words.update(self.__custom_stop_words)
+      ... # The remained part of the function
 
+**Data training:**  
+There are four trained models: Linear Regression, Linear SVM, Random Forest, and Naive Bayes. Additionally, there are two algorithms utilized to extract features: TF-IDF and Word2Vec. This is done to train model on different features and compare these models in their accuracy and generalization performance.  
+
+However, an issue arised during the training process. Namely, Word2Vec features may contain negative values, while TF-IDF features can not. It affects the training of the Naive Bayes model. As a result, to process TF-IDF features Multinomial Naive Bayes is used, while for Word2Vec features Gaussian Naive Bayes is utilized.  
 
 ## 5. Results of the work
 ### 5.1 Data preparation
