@@ -79,7 +79,7 @@ The **"app.py"** file analyzes data, preprocesses it, extracts features and trai
   
 
 ### 4.4. Implementation specifics
-##### Data preprocessing
+**Data preprocessing:**  
 
 
 ## 5. Results of the work
