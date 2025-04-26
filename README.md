@@ -85,7 +85,8 @@ Data preprocessing is accomplished in two steps:
 2. Lemmatiztion via spacy nlp model.  
 This approach is appriximately **two times faster** than cleaning data via the spacy nlp model only, while the quality of cleaning process is almost preserved.  
 
-To provide an accurate remove of stop words the set of custom stop words is added. The choice of words can be explained by the following logic. The first thing that takes place is cleaning from the punctuation, therefore contractions, such as wouldn't, he'll, etc. are divided into two parts which are not read as stop words by the original static set from the spacy library. Thus, we expand the original list by possible beginnings and endings (see **self.__custom_stop_words** variable).    
+To provide an accurate remove of stop words the set of custom stop words is added. The choice of words can be explained by the following logic. The first thing that takes place is cleaning from the punctuation, therefore contractions, such as wouldn't, he'll, etc. are divided into two parts which are not read as stop words by the original static set from the spacy library. Thus, we expand the original list by possible beginnings and endings (see **self.__custom_stop_words** variable).  
+
 '''python
   def __init__(self, spacy_batch_size: int, spacy_n_process: int):
       """
