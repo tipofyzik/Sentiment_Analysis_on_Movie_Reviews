@@ -104,6 +104,7 @@ To provide an accurate remove of stop words the set of custom stop words is adde
                                   "don", "doesn"}
       self.__stop_words.update(self.__custom_stop_words)
       ... # The remained part of the function
+```
 
 **Data training:**  
 There are four trained models: Linear Regression, Linear SVM, Random Forest, and Naive Bayes. Additionally, there are two algorithms utilized to extract features: TF-IDF and Word2Vec. This is done to train model on different features and compare these models in their accuracy and generalization performance.  
