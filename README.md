@@ -128,6 +128,9 @@ However, an issue arised during the training process. Namely, Word2Vec features 
   </tr>
 </table>  
 
+# EXPLAIN RESULTS STABILITY
+
+
 <table>
   <tr>
   </tr>
