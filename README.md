@@ -126,6 +126,8 @@ However, an issue arised during the training process. Namely, Word2Vec features 
 <table>
   <tr>
     <td><img src="https://github.com/user-attachments/assets/fba68c16-f924-4333-a7b5-294752d53de8" width="300"/></td>
+  </tr>
+  <tr>
     <td><img src="https://github.com/user-attachments/assets/b577f8a6-921b-4088-ac71-942d5b87de58" width="300"/></td>
   </tr>
 </table>  
