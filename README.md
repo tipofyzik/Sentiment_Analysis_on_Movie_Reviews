@@ -1,4 +1,4 @@
-# Sentiment Analysis of Movie Reviews
+![image](https://github.com/user-attachments/assets/0a33eb81-4004-4e93-993e-114cf50e7cf8)# Sentiment Analysis of Movie Reviews
 
 ## 1. Task formulation
 There are movie reviews collected from the internet. Basically, there are 2 datasets: Standford's Large Movie Review Dataset and SAR14 dataset. The goal is to train and evaluate the model(s) that will analyze the custom movie review and determine its overall sentiment. An outcome of a model should be either positive or negative, i.e., this is a binary classification task.  
@@ -125,9 +125,15 @@ However, an issue arised during the training process. Namely, Word2Vec features 
 
 <table>
   <tr>
+    <td><img src="https://github.com/user-attachments/assets/fba68c16-f924-4333-a7b5-294752d53de8" width="300"/></td>
+    <td><img src="https://github.com/user-attachments/assets/b577f8a6-921b-4088-ac71-942d5b87de58" width="300"/></td>
+  </tr>
+</table>  
+
+<table>
+  <tr>
   </tr>
   <tr>
   </tr>
 </table>  
-
 
