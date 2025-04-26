@@ -82,6 +82,25 @@ The **"app.py"** file analyzes data, preprocesses it, extracts features and trai
 **Data preprocessing:**  
 
 
+'''python
+    def __init__(self, spacy_batch_size: int, spacy_n_process: int):
+        """
+        Initializes the DataPreprocessor with the provided batch size for lemmatization 
+        and the number of processes for spacy model.
+
+        Args:
+            spacy_batch_size (int): The batch size for faster lemmatization.
+            spacy_n_process (int): The number of processes for spacy model.
+        """
+        self.__nlp = spacy.load("en_core_web_sm", disable=["parser", "ner", "textcat"])
+        self.__stop_words = set(spacy.load("en_core_web_sm").Defaults.stop_words)  
+        self.__custom_stop_words = {"t", "ll", "s", "d", 
+                                    "couldn", "wouldn", "mightn", "mayn", 
+                                    "don", "doesn"}
+        self.__stop_words.update(self.__custom_stop_words)
+        ...
+
+
 ## 5. Results of the work
 ### 5.1 Data preparation
 <table>
