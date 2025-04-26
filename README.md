@@ -118,7 +118,7 @@ However, an issue arised during the training process. Namely, Word2Vec features 
   </tr>
 </table>
  
-**Accuracy change through 10 runs:**  
+### Accuracy change through 10 runs:  
 <table>
   <tr>
     <td><img src="https://github.com/user-attachments/assets/fba68c16-f924-4333-a7b5-294752d53de8"/></td>
