@@ -68,8 +68,6 @@ _**· ModelTrainerParameters:**_
 &emsp;&emsp; — naive_bayes_trained: Shows whether naive bayes model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).  
 &emsp;&emsp; — random_forest_trained: Shows whether random forest model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).  
 &emsp;&emsp; — linear_svc_trained: Shows whether linear SVM is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).  
-_**· GraphPlotterParameters:**_  
-&emsp;&emsp; —    
 _**· ResultSaver:**_  
 &emsp;&emsp; — path_to_results: Path to results folder.   
 &emsp;&emsp; — path_to_tfidf_result_models: Path to models trained on TF-IDF features.   
