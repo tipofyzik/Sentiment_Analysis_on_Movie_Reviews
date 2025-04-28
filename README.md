@@ -58,6 +58,7 @@ _**· FeatureExtractorParameters:**_
 &emsp;&emsp; — path_to_x_test_tfidf: Path to the test part of the TF-IDF features (to avoid repetition of the feature extraction process).    
 &emsp;&emsp; — path_to_w2v_model: Path to the Word2Vec that will be used further to prepare custom review for evaluation.    
 &emsp;&emsp; — path_to_w2v_features: Path to the Word2Vec features (to avoid repetition of the feature extraction process).      
+&emsp;&emsp; — balance_dataset: Determines whether classes of the datasets should be balanced or not.  If the value is 0, datasets will be balanced, otherwise the distribution will remain the same.  
 &emsp;&emsp; — tfidf_features_extracted: Shows whether TF-IDF features are extracted or not. If the value is 0, then they have not been extracted yet, otherwise they have been (to avoid repetition of the feature extraction process).     
 &emsp;&emsp; — word2vec_features_extracted: Shows whether Word2Vec features are extracted or not. If the value is 0, then they have not been extracted yet, otherwise they have been (to avoid repetition of the feature extraction process).         
 _**· ModelTrainerParameters:**_  
