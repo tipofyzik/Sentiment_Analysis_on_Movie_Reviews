@@ -8,7 +8,12 @@ The references to the original datasets:
 **However, for convenience, I used its .csv version (IMBD dataset) published on kaggle**: https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews   
 2. SAR14 dataset: https://github.com/daiquocnguyen/SAR14?tab=readme-ov-file  
 
-You can get acquainted with the results on Kaggle: https://www.kaggle.com/code/tipofyzik/sentiment-analysis-of-movie-reviews  
+Overall, there are two types (classes) of review with the following number of samples:  
+1. positive: 192,378 reviews  
+2. negative: 96,222 reviews  
+
+
+You can download the results on Kaggle: https://www.kaggle.com/code/tipofyzik/sentiment-analysis-of-movie-reviews  
 
 ## 2. Program installation
 ### Requirements 
