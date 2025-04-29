@@ -71,10 +71,10 @@ _**· ResultSaver:**_
 ### 4.3. Launch file
 The **"app.py"** file analyzes data, preprocesses it, extracts features and trains models on these features. Let's go through a step-by-step explanation of what happens there. The program:  
 1. Imports all the custom classes and reads parameters from **"config.json"**.  
-2. Reads the original dataset and outputs basic information about it to the console.
-3. Preprocesses it by removing noise (punctuation, stopwords, lemmatize data). Preprocessed texts are saved to .csv file to avoid repetiotion of preprocessing. 
-4. Extracts features from reviews. There are two feature extraction algorithms: TF-IDF and Word2Vec. Extracted features are saved to avoid repetiotion of feature extraction process. 
-5. Teaches four models on two types of extracted features (Logistic Regression, Naive Bayes, Random Forest, and Linear SVM).
+2. Reads the original dataset and outputs basic information about it to the console.  
+3. Preprocesses it by removing noise (punctuation, stopwords, lemmatize data). Preprocessed texts are saved to .csv file to avoid repetiotion of preprocessing.  
+4. Extracts features from reviews. There are two feature extraction algorithms: TF-IDF and Word2Vec.   
+5. Teaches four models on two types of extracted features (Logistic Regression, Naive Bayes, Random Forest, and Linear SVM).  
   
 
 ### 4.4. Implementation specifics
