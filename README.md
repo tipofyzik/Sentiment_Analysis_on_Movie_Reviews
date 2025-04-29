@@ -1,10 +1,10 @@
 ## 1. Task formulation
-There are movie reviews collected from the internet. Basically, there are 2 datasets: Standford's Large Movie Review Dataset and SAR14 dataset. The goal is to train and evaluate the model(s) that will analyze the custom movie review and determine its overall sentiment. An outcome of a model should be either positive or negative, i.e., this is a binary classification task.  
+There are movie reviews collected from the internet. Basically, there are 2 datasets: stanford's Large Movie Review Dataset and SAR14 dataset. The goal is to train and evaluate the model(s) that will analyze the custom movie review and determine its overall sentiment. An outcome of a model should be either positive or negative, i.e., this is a binary classification task.  
 
 I uploaded datasets to google drive, so they can be simply put into the **code** folder for their processing. Datasets are available through this link: https://drive.google.com/drive/folders/1ACDrihk3dvMMEIhsVKuf3jsO6Rv7DDbP?usp=drive_link  
 
 The references to the original datasets:  
-1. Standford's Large Movie Review Dataset: https://ai.stanford.edu/~amaas/data/sentiment/  
+1. stanford's Large Movie Review Dataset: https://ai.stanford.edu/~amaas/data/sentiment/  
 **However, for convenience, I used its .csv version (IMBD dataset) published on kaggle**: https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews   
 2. SAR14 dataset: https://github.com/daiquocnguyen/SAR14?tab=readme-ov-file  
 
@@ -42,11 +42,11 @@ There are 4 classes ensure the program works:
 ### 4.2. Config file
 Config file contains settings for different stages of data analysis and training. There are 6 parameter categories in this .json file:  
 _**· DatasetsPaths:**_  
-&emsp;&emsp; — path_to_standford_movie_reviews_dataset: Path to the Standford's Movie Review dataset in .csv format.   
+&emsp;&emsp; — path_to_stanford_movie_reviews_dataset: Path to the stanford's Movie Review dataset in .csv format.   
 &emsp;&emsp; — path_to_sar14_dataset_txt: Path to the SAR14 dataset in .txt format.   
 &emsp;&emsp; — path_to_sar14_dataset_csv: Path to the SAR14 dataset in .csv format.  
 _**· DataPreprocessingParameters:**_  
-&emsp;&emsp; — path_to_standford_movie_reviews_dataset_cleaned: Path to the cleaned from noise Standford's Movie Review dataset in .csv format (to avoid repetition of the cleaning process).   
+&emsp;&emsp; — path_to_stanford_movie_reviews_dataset_cleaned: Path to the cleaned from noise stanford's Movie Review dataset in .csv format (to avoid repetition of the cleaning process).   
 &emsp;&emsp; — path_to_sar14_dataset_cleaned: Path to the cleaned from noise SAR14 dataset in .csv format (to avoid repetition of the cleaning process).  
 &emsp;&emsp; — data_is_preprocessed: Shows whether data was preprocessed or not. If the value is 0, then the original data have not been preprocessed yet, otherwise it have been (to avoid repetition of the cleaning process).  
 &emsp;&emsp; — spacy_batch_size: Determines how many rewiews should be preprocessed simultaneously. It is used to speed up preprocessing.  
