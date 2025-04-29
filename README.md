@@ -59,6 +59,7 @@ _**· FeatureExtractorParameters:**_
 _**· ModelTrainerParameters:**_  
 &emsp;&emsp; — sample_test_size: Determines the test size for the split function.  
 &emsp;&emsp; — training_number: Determines how many times models will be trained from the scratch. This parameter was created to gain the statistics and evaluate models' stability. The default value is 1.   
+&emsp;&emsp; — model_random_state: Determines the random state for the split funciton and the ML models to provide reproducibility.  
 &emsp;&emsp; — logistic_regression_trained: Shows whether logistic regression model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).           
 &emsp;&emsp; — naive_bayes_trained: Shows whether naive bayes model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).  
 &emsp;&emsp; — random_forest_trained: Shows whether random forest model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).  
