@@ -32,11 +32,11 @@ os.makedirs(path_to_w2v_result_models, exist_ok=True)
 
 
 # Accessing original data.
-path_to_standford_movie_reviews_dataset = config["DatasetsPaths"]["path_to_standford_movie_reviews_dataset"]
+path_to_stanford_movie_reviews_dataset = config["DatasetsPaths"]["path_to_stanford_movie_reviews_dataset"]
 path_to_sar14_dataset = config["DatasetsPaths"]["path_to_sar14_dataset_csv"]
 
 # Accessing processing parameters and already preprocessed data if exists.
-path_to_standford_movie_reviews_dataset_cleaned = config["DataPreprocessingParameters"]["path_to_standford_movie_reviews_dataset_cleaned"]
+path_to_stanford_movie_reviews_dataset_cleaned = config["DataPreprocessingParameters"]["path_to_stanford_movie_reviews_dataset_cleaned"]
 path_to_sar14_dataset_cleaned = config["DataPreprocessingParameters"]["path_to_sar14_dataset_cleaned"]
 data_is_preprocessed = config["DataPreprocessingParameters"]["data_is_preprocessed"]
 spacy_batch_size = config["DataPreprocessingParameters"]["spacy_batch_size"]
@@ -60,7 +60,7 @@ linear_svc_trained = bool(config["ModelTrainerParameters"]["linear_svc_trained"]
 
 # To avoid the repetition of preprocessing
 if data_is_preprocessed:
-    path_to_standford_movie_reviews_dataset = path_to_standford_movie_reviews_dataset_cleaned
+    path_to_stanford_movie_reviews_dataset = path_to_stanford_movie_reviews_dataset_cleaned
     path_to_sar14_dataset = path_to_sar14_dataset_cleaned
 
 
@@ -104,13 +104,13 @@ def preprocess_dataset(data_preprocessor: DataPreprocessor, dataset: pd.DataFram
 
 
 if __name__ == "__main__":
-    standford_dataset = pd.read_csv(path_to_standford_movie_reviews_dataset)
+    stanford_dataset = pd.read_csv(path_to_stanford_movie_reviews_dataset)
     sar14_dataset = pd.read_csv(path_to_sar14_dataset)
 
 
 
     # Analysis of datasets
-    analyze_dataset(dataset = standford_dataset, dataset_name = "Stanford's Movie Review dataset")
+    analyze_dataset(dataset = stanford_dataset, dataset_name = "Stanford's Movie Review dataset")
     analyze_dataset(dataset = sar14_dataset, dataset_name = "SAR14 dataset")
     print("Data analysis accomplished.")
 
@@ -119,10 +119,10 @@ if __name__ == "__main__":
     # Noise cleaning from data
     data_preprocessor = DataPreprocessor(spacy_batch_size = spacy_batch_size, spacy_n_process = spacy_n_process)
     if not data_is_preprocessed:
-        standford_dataset = preprocess_dataset(data_preprocessor = data_preprocessor, 
-                                               dataset = standford_dataset, 
+        stanford_dataset = preprocess_dataset(data_preprocessor = data_preprocessor, 
+                                               dataset = stanford_dataset, 
                                                column_to_preprocess = "review", 
-                                               path_to_save = path_to_standford_movie_reviews_dataset_cleaned,
+                                               path_to_save = path_to_stanford_movie_reviews_dataset_cleaned,
                                                dataset_name = "Stanford's Movie Review dataset")
         sar14_dataset = preprocess_dataset(data_preprocessor = data_preprocessor, 
                                            dataset = sar14_dataset, 
@@ -132,7 +132,7 @@ if __name__ == "__main__":
         config["DataPreprocessingParameters"]["data_is_preprocessed"] = 1
     print("Data preprocessing accomplished.")
 
-    data = pd.concat([standford_dataset, sar14_dataset], ignore_index=True)
+    data = pd.concat([stanford_dataset, sar14_dataset], ignore_index=True)
     data['sentiment'] = data['sentiment'].map({'positive': 1, 'negative': 0})
 
     if balance_dasets:
