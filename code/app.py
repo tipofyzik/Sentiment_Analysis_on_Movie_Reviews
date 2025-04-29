@@ -4,6 +4,8 @@ from FeatureExtractor import FeatureExtractor
 from ModelTrainer import ModelTrainer
 
 from sklearn.model_selection import train_test_split
+from sklearn.utils import resample
+
 from gensim.models import Word2Vec
 
 import pandas as pd
@@ -40,17 +42,15 @@ data_is_preprocessed = config["DataPreprocessingParameters"]["data_is_preprocess
 spacy_batch_size = config["DataPreprocessingParameters"]["spacy_batch_size"]
 spacy_n_process = config["DataPreprocessingParameters"]["spacy_n_process"]
 
-# Accessing feature extraction parameters and extracted ngrams if exists.
+# To save vectorizers and models for tokenizing custom reviews.
+balance_dasets = bool(config["FeatureExtractorParameters"]["balance_dasets"])
 path_to_tfidf_vectorizer = config["FeatureExtractorParameters"]["path_to_tfidf_vectorizer"]
-path_to_x_train_tfidf = config["FeatureExtractorParameters"]["path_to_x_train_tfidf"]
-path_to_x_test_tfidf = config["FeatureExtractorParameters"]["path_to_x_test_tfidf"]
-tfidf_features_extracted = bool(config["FeatureExtractorParameters"]["tfidf_features_extracted"])
-
 path_to_w2v_model = config["FeatureExtractorParameters"]["path_to_w2v_model"]
-path_to_w2v_features = config["FeatureExtractorParameters"]["path_to_w2v_features"]
-word2vec_features_extracted = bool(config["FeatureExtractorParameters"]["word2vec_features_extracted"])
 
 #Accessing parameters for model training
+sample_test_size = config["ModelTrainerParameters"]["sample_test_size"]
+training_number = config["ModelTrainerParameters"]["training_number"]
+model_random_state = config["ModelTrainerParameters"]["model_random_state"]
 logistic_regression_trained = bool(config["ModelTrainerParameters"]["logistic_regression_trained"])
 naive_bayes_trained = bool(config["ModelTrainerParameters"]["naive_bayes_trained"])
 random_forest_trained = bool(config["ModelTrainerParameters"]["random_forest_trained"])
@@ -135,41 +135,47 @@ if __name__ == "__main__":
     data = pd.concat([standford_dataset, sar14_dataset], ignore_index=True)
     data['sentiment'] = data['sentiment'].map({'positive': 1, 'negative': 0})
 
-    x, y = data["review"], data["sentiment"]
-    x_train_tfidf, x_test_tfidf, y_train_tfidf, y_test_tfidf = train_test_split(x, y, test_size=0.2 , random_state = 0, stratify = y)
+    if balance_dasets:
+        data_positive = data[data['sentiment'] == 1]
+        data_negative = data[data['sentiment'] == 0]
+
+        data_positive_downsampled = resample(data_positive,
+                                        replace=False, 
+                                        n_samples=len(data_negative), 
+                                        random_state=0)
+        balanced_data = pd.concat([data_positive_downsampled, data_negative])
+        balanced_data = balanced_data.sample(frac=1, random_state=0)
+
+        x, y = balanced_data["review"], balanced_data["sentiment"]
+    else:
+        x, y = data["review"], data["sentiment"]
+
+    x_train, x_test, y_train, y_test = train_test_split(x, y, 
+                                                        test_size=sample_test_size, 
+                                                        random_state = model_random_state, 
+                                                        stratify = y)
 
 
 
     # Feature extraction process
     feature_extractor = FeatureExtractor()
-    # To avoid the repetition of the feature extraction process
+
     # TF-IDF FEATURES
-    if not tfidf_features_extracted:
-        x_train_tfidf, x_test_tfidf = feature_extractor.extract_tfidf_features(x_train = x_train_tfidf, 
-                                                                               x_test = x_test_tfidf)
-        feature_extractor.save_tfidf_vectorizer(path_to_vectorizer = path_to_tfidf_vectorizer)
-        feature_extractor.save_tfidf_features(x_train = x_train_tfidf, x_test = x_test_tfidf,
-                                        path_to_x_train = path_to_x_train_tfidf, 
-                                        path_to_x_test = path_to_x_test_tfidf)
-        config["FeatureExtractorParameters"]["tfidf_features_extracted"] = 1
-    else:
-        x_train_tfidf, x_test_tfidf = feature_extractor.load_tfidf_features(path_to_x_train = path_to_x_train_tfidf,
-                                                                      path_to_x_test = path_to_x_test_tfidf)
+    x_train_tfidf, x_test_tfidf = feature_extractor.extract_tfidf_features(x_train = x_train, 
+                                                                            x_test = x_test)
+    feature_extractor.save_tfidf_vectorizer(path_to_vectorizer = path_to_tfidf_vectorizer)
 
     # WORD2VEC FEATURES
-    reviews = x.tolist()
-    word2vec_model = Word2Vec(sentences=reviews, vector_size=100, window=5, min_count=2, workers=4)
-    if not word2vec_features_extracted:
-        word2vec_vectors = np.array([feature_extractor.extract_word2vec_features(word2vec_model = word2vec_model, 
-                                                                                 review = review) 
-                                                                                 for review in reviews])
-        np.save(path_to_w2v_features, word2vec_vectors)
-        word2vec_model.save(path_to_w2v_model)
-        config["FeatureExtractorParameters"]["word2vec_features_extracted"] = 1
-    else: 
-        word2vec_vectors = np.load(path_to_w2v_features)
-        word2vec_model = Word2Vec.load(path_to_w2v_model)
-    x_train_w2v, x_test_w2v, y_train_w2v, y_test_w2v = train_test_split(word2vec_vectors, y, test_size=0.2, random_state=0, stratify = y)
+    reviews_train = x_train.tolist()
+    reviews_test = x_test.tolist()
+    word2vec_model = Word2Vec(sentences=reviews_train, vector_size=150, window=3, min_count=2, workers=4, seed = 0)
+    x_train_w2v = np.array([feature_extractor.extract_word2vec_features(word2vec_model = word2vec_model, 
+                                                                        review = review) 
+                                                                        for review in reviews_train])
+    x_test_w2v = np.array([feature_extractor.extract_word2vec_features(word2vec_model = word2vec_model, 
+                                                                        review = review) 
+                                                                        for review in reviews_test])
+    word2vec_model.save(path_to_w2v_model)
     print("Feature extraction accomplished.")
 
 
@@ -177,25 +183,30 @@ if __name__ == "__main__":
     # Training of various models
     model_trainer = ModelTrainer()
 
-    tfidf_parameters_for_training = [x_train_tfidf, x_test_tfidf, y_train_tfidf, y_test_tfidf, path_to_tfidf_result_models]
-    word2vec_parameters_for_training = [x_train_w2v, x_test_w2v, y_train_w2v, y_test_w2v, path_to_w2v_result_models]
+    tfidf_parameters_for_training = [x_train_tfidf, x_test_tfidf, y_train, y_test, 
+                                     path_to_tfidf_result_models, model_random_state]
+    word2vec_parameters_for_training = [x_train_w2v, x_test_w2v, y_train, y_test, 
+                                        path_to_w2v_result_models, model_random_state]
 
-    if not logistic_regression_trained:
-        model_trainer.train_log_reg(*tfidf_parameters_for_training)
-        model_trainer.train_log_reg(*word2vec_parameters_for_training)
-        config["ModelTrainerParameters"]["logistic_regression_trained"] = 1
-    if not naive_bayes_trained:
-        model_trainer.train_naive_bayes(*tfidf_parameters_for_training)
-        model_trainer.train_gauss_naive_bayes(*word2vec_parameters_for_training)
-        config["ModelTrainerParameters"]["naive_bayes_trained"] = 1
-    if not random_forest_trained:
-        model_trainer.train_random_forest(*tfidf_parameters_for_training)
-        model_trainer.train_random_forest(*word2vec_parameters_for_training)
-        config["ModelTrainerParameters"]["random_forest_trained"] = 1
-    if not linear_svc_trained:
-        model_trainer.train_linear_svc(*tfidf_parameters_for_training)
-        model_trainer.train_linear_svc(*word2vec_parameters_for_training)
-        config["ModelTrainerParameters"]["linear_svc_trained"] = 1
+    for iteration in range(training_number):
+        if not logistic_regression_trained:
+            model_trainer.train_log_reg(*tfidf_parameters_for_training, i = iteration)
+            model_trainer.train_log_reg(*word2vec_parameters_for_training, i = iteration)
+        if not naive_bayes_trained:
+            model_trainer.train_naive_bayes(*tfidf_parameters_for_training, i = iteration)
+            model_trainer.train_gauss_naive_bayes(*word2vec_parameters_for_training, i = iteration)
+        if not random_forest_trained:
+            model_trainer.train_random_forest(*tfidf_parameters_for_training, i = iteration)
+            model_trainer.train_random_forest(*word2vec_parameters_for_training, i = iteration)
+        if not linear_svc_trained:
+            model_trainer.train_linear_svc(*tfidf_parameters_for_training, i = iteration)
+            model_trainer.train_linear_svc(*word2vec_parameters_for_training, i = iteration)
+
+    config["ModelTrainerParameters"]["logistic_regression_trained"] = 1
+    config["ModelTrainerParameters"]["naive_bayes_trained"] = 1
+    config["ModelTrainerParameters"]["random_forest_trained"] = 1
+    config["ModelTrainerParameters"]["linear_svc_trained"] = 1
+    model_trainer.save_models()
     print("Models training accomplished.")
 
 

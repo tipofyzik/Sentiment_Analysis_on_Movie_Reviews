@@ -14,20 +14,18 @@
     "FeatureExtractorParameters": {
         "path_to_features": "./features",
         "path_to_tfidf_vectorizer": "./features/tfidf_vectorizer.pkl",
-        "path_to_x_train_tfidf": "./features/x_train_tfidf.npz",
-        "path_to_x_test_tfidf": "./features/x_test_tfidf.npz",
         "path_to_w2v_model": "./features/word2vec_model.bin",
-        "path_to_w2v_features": "./features/word2vec_vectors.npy",
-        "tfidf_features_extracted": 0,
-        "word2vec_features_extracted": 0
+        "balance_dasets": 0
     },
     "ModelTrainerParameters": {
+        "sample_test_size": 0.3,
+        "training_number": 1,
+        "model_random_state": 0,
         "logistic_regression_trained": 0,
         "naive_bayes_trained": 0,
         "random_forest_trained": 0,
         "linear_svc_trained": 0
     },
-    "GraphPlotterGridParameters": {},
     "ResultSaver": {
         "path_to_results": "./results",
         "path_to_tfidf_result_models": "./results/TF-IDF",

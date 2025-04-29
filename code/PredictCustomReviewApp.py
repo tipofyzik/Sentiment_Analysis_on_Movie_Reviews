@@ -27,21 +27,21 @@ path_to_w2v_result_models = config["ResultSaver"]["path_to_w2v_result_models"]
 data_preprocessor = DataPreprocessor(spacy_batch_size = spacy_batch_size, spacy_n_process = spacy_n_process)
 tfidf_vectorizer = joblib.load(path_to_tfidf_vectorizer)
 
-tfidf_logistic_regression_model = joblib.load(f"{path_to_tfidf_result_models}/logistic_regression_model.pkl")
-tfidf_naive_bayes_model = joblib.load(f"{path_to_tfidf_result_models}/naive_bayes_model.pkl")
-tfidf_random_forest_model = joblib.load(f"{path_to_tfidf_result_models}/random_forest_model.pkl")
-tfidf_linear_svc_model = joblib.load(f"{path_to_tfidf_result_models}/linear_svc_model.pkl")
+tfidf_logistic_regression_model = joblib.load(f"{path_to_tfidf_result_models}/logistic_regression.pkl")
+tfidf_naive_bayes_model = joblib.load(f"{path_to_tfidf_result_models}/naive_bayes.pkl")
+tfidf_random_forest_model = joblib.load(f"{path_to_tfidf_result_models}/random_forest.pkl")
+tfidf_linear_svc_model = joblib.load(f"{path_to_tfidf_result_models}/linear_svc.pkl")
 
-w2v_logistic_regression_model = joblib.load(f"{path_to_w2v_result_models}/logistic_regression_model.pkl")
-w2v_gauss_naive_bayes_model = joblib.load(f"{path_to_w2v_result_models}/gauss_naive_bayes_model.pkl")
-w2v_random_forest_model = joblib.load(f"{path_to_w2v_result_models}/random_forest_model.pkl")
-w2v_linear_svc_model = joblib.load(f"{path_to_w2v_result_models}/linear_svc_model.pkl")
+w2v_logistic_regression_model = joblib.load(f"{path_to_w2v_result_models}/logistic_regression.pkl")
+w2v_gauss_naive_bayes_model = joblib.load(f"{path_to_w2v_result_models}/gauss_naive_bayes.pkl")
+w2v_random_forest_model = joblib.load(f"{path_to_w2v_result_models}/random_forest.pkl")
+w2v_linear_svc_model = joblib.load(f"{path_to_w2v_result_models}/linear_svc.pkl")
 
 
 
 class PredictCustomReviewApp:
     """
-    A GUI application for predicting the sentiment of a custom movie review.
+    A GUI application for sentiment prediction of a custom movie review.
 
     Allows the user to select a machine learning model and feature extraction method
     (TF-IDF or Word2Vec), enter a review, and receive a sentiment prediction (positive/negative).
@@ -92,7 +92,7 @@ class PredictCustomReviewApp:
         """
         tk.Label(self.root, text="Select Model:").pack(pady=(10, 0))
         self.model_dropdown = ttk.Combobox(self.root, textvariable=self.model_var, values=[
-            "LogisticRegression", "Linear SVM", "RandomForest", "NaiveBayes"
+            "Logistic Regression", "Linear SVM", "Random Forest", "Naive Bayes"
         ])
         self.model_dropdown.pack()
 
@@ -147,25 +147,25 @@ class PredictCustomReviewApp:
         Loads a pre-trained classification model based on the selected name and feature method.
 
         Args:
-            model_name (str): The name of the model (e.g., "LogisticRegression").
+            model_name (str): The name of the model (e.g., "Logistic Regression").
             feature_method (str): The selected feature extraction method ("TF-IDF" or "Word2Vec").
 
         Returns:
             sklearn.base.BaseEstimator: The loaded machine learning model.
         """
         model_files = {
-            "LogisticRegression": "logistic_regression_model.pkl", 
-            "NaiveBayes" : "naive_bayes_model.pkl",
-            "GaussNaiveBayes" : "gauss_naive_bayes_model.pkl",
-            "RandomForest": "random_forest_model.pkl", 
-            "Linear SVM": "linear_svc_model.pkl"
+            "Logistic Regression": "logistic_regression.pkl", 
+            "Naive Bayes" : "naive_bayes.pkl",
+            "Gaussian Naive Bayes" : "gauss_naive_bayes.pkl",
+            "Random Forest": "random_forest.pkl", 
+            "Linear SVM": "linear_svc.pkl"
             }
         feature_method_paths = {
             "TF-IDF" : path_to_tfidf_result_models, 
             "Word2Vec" : path_to_w2v_result_models
         }
-        if feature_method == "Word2Vec" and model_name == "NaiveBayes":
-            model_name = "GaussNaiveBayes"
+        if feature_method == "Word2Vec" and model_name == "Naive Bayes":
+            model_name = "Gaussian Naive Bayes"
 
         prediction_model = joblib.load(f"{feature_method_paths[feature_method]}/{model_files[model_name]}")
         return prediction_model

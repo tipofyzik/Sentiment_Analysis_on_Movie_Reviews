@@ -4,8 +4,11 @@ from sklearn.naive_bayes import MultinomialNB, GaussianNB
 from sklearn.svm import LinearSVC
 
 from sklearn.metrics import classification_report, confusion_matrix
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
+from collections import defaultdict
 import seaborn as sns
 import pandas as pd
 import numpy as np
@@ -22,10 +25,12 @@ class ModelTrainer:
         """
         Initializes the ModelTrainer object.
         """
+        self.__models = defaultdict(dict)
 
     def train_log_reg(self, x_train: pd.Series, x_test: pd.Series, 
                       y_train: pd.Series, y_test: pd.Series,
-                      path_to_results: str) -> None: 
+                      path_to_results: str, random_state: int, 
+                      i: int = 0) -> None: 
         """
         Trains ligistic regression model and saves the confusion matrix and the report with various metrics, 
         such as accuracy, precision, f1-score, etc.
@@ -36,26 +41,30 @@ class ModelTrainer:
             y_train (pd.Series): The train part of the target variable.
             y_test (pd.Series): The test part of the target variable.
             path_to_results (str): The path where the result model will be saved.
-        """
+            random_state (int): The random state for model initialization.
+            i (int): The number the reflects the function call number (to gain statistics).
+            """
         logistic_regression = LogisticRegression(C=1.0, 
                                                  max_iter=1000, 
-                                                 random_state=0, 
+                                                 random_state = random_state, 
                                                  solver='liblinear')
         logistic_regression.fit(x_train, y_train)
         y_pred = logistic_regression.predict(x_test)
 
         report = classification_report(y_test, y_pred, output_dict=True)
+        
         self.__save_classification_report(pd.DataFrame(report).transpose().round(3), 
-                                          path_to_results, 
-                                          filename = "logistic_regression_report")
+                                        path_to_results, 
+                                        filename = f"logistic_regression_report_{i}")
         self.__save_confusion_matrix(confusion_matrix(y_test, y_pred),
-                                     path_to_results,
-                                     filename = "logistic_regression_confusion_matrix")
-        joblib.dump(logistic_regression, f"{path_to_results}/logistic_regression_model.pkl")
+                                    path_to_results,
+                                    filename = f"logistic_regression_confusion_matrix_{i}")
+        self.__models[path_to_results]["logistic_regression"] = logistic_regression
 
     def train_naive_bayes(self, x_train: pd.Series, x_test: pd.Series, 
                       y_train: pd.Series, y_test: pd.Series,
-                      path_to_results: str) -> None:
+                      path_to_results: str, random_state: int, 
+                      i: int = 0) -> None:
         """
         Trains Naive Bayes model and saves the confusion matrix and the report with various metrics, 
         such as accuracy, precision, f1-score, etc. It is used for features extracted via TF-IDF algorithm.
@@ -66,6 +75,8 @@ class ModelTrainer:
             y_train (pd.Series): The train part of the target variable.
             y_test (pd.Series): The test part of the target variable.
             path_to_results (str): The path where the result model will be saved.
+            random_state (int): The random state for model initialization.
+            i (int): The number the reflects the function call number (to gain statistics).
         """
         naive_bayes = MultinomialNB()
         naive_bayes.fit(x_train, y_train)
@@ -74,15 +85,16 @@ class ModelTrainer:
         report = classification_report(y_test, y_pred,output_dict=True)
         self.__save_classification_report(pd.DataFrame(report).transpose().round(3), 
                                           path_to_results, 
-                                          filename = "naive_bayes_report")
+                                          filename = f"naive_bayes_report_{i}")
         self.__save_confusion_matrix(confusion_matrix(y_test, y_pred), 
                                      path_to_results,
-                                     filename = "naive_bayes_confusion_matrix")
-        joblib.dump(naive_bayes, f"{path_to_results}/naive_bayes_model.pkl")
+                                     filename = f"naive_bayes_confusion_matrix_{i}")
+        self.__models[path_to_results]["naive_bayes"] = naive_bayes
 
     def train_gauss_naive_bayes(self, x_train: pd.Series, x_test: pd.Series, 
                       y_train: pd.Series, y_test: pd.Series,
-                      path_to_results: str) -> None:
+                      path_to_results: str, random_state: int, 
+                      i: int = 0) -> None:
         """
         Trains Gaussian Naive Bayes model and saves the confusion matrix and the report with various metrics, 
         such as accuracy, precision, f1-score, etc. It is used for features extracted via Word2Vec algorithm.
@@ -93,23 +105,26 @@ class ModelTrainer:
             y_train (pd.Series): The train part of the target variable.
             y_test (pd.Series): The test part of the target variable.
             path_to_results (str): The path where the result model will be saved.
+            random_state (int): The random state for model initialization.
+            i (int): The number the reflects the function call number (to gain statistics).
         """
-        naive_bayes = GaussianNB()        
-        naive_bayes.fit(x_train, y_train)
-        y_pred = naive_bayes.predict(x_test)
+        gauss_naive_bayes = GaussianNB()        
+        gauss_naive_bayes.fit(x_train, y_train)
+        y_pred = gauss_naive_bayes.predict(x_test)
 
         report = classification_report(y_test, y_pred,output_dict=True)
         self.__save_classification_report(pd.DataFrame(report).transpose().round(3), 
                                           path_to_results, 
-                                          filename = "gauss_naive_bayes_report")
+                                          filename = f"gauss_naive_bayes_report_{i}")
         self.__save_confusion_matrix(confusion_matrix(y_test, y_pred), 
                                      path_to_results,
-                                     filename = "gauss_naive_bayes_confusion_matrix")
-        joblib.dump(naive_bayes, f"{path_to_results}/gauss_naive_bayes_model.pkl")
+                                     filename = f"gauss_naive_bayes_confusion_matrix_{i}")
+        self.__models[path_to_results]["gauss_naive_bayes"] = gauss_naive_bayes
 
     def train_random_forest(self, x_train: pd.Series, x_test: pd.Series, 
                       y_train: pd.Series, y_test: pd.Series,
-                      path_to_results: str) -> None:
+                      path_to_results: str, random_state: int, 
+                      i: int = 0) -> None:
         """
         Trains random forest model and saves the confusion matrix and the report with various metrics, 
         such as accuracy, precision, f1-score, etc.
@@ -120,28 +135,32 @@ class ModelTrainer:
             y_train (pd.Series): The train part of the target variable.
             y_test (pd.Series): The test part of the target variable.
             path_to_results (str): The path where the result model will be saved.
+            random_state (int): The random state for model initialization.
+            i (int): The number the reflects the function call number (to gain statistics).
         """
-        random_forest_model = RandomForestClassifier(n_estimators=100, 
+        random_forest = RandomForestClassifier(n_estimators=100, 
+                                                     class_weight='balanced',
                                                      max_depth=10, 
                                                      n_jobs=-1,
-                                                     random_state=0,
+                                                     random_state=random_state,
                                                      min_samples_leaf=2,
                                                      max_features='sqrt')
-        random_forest_model.fit(x_train, y_train)
-        y_pred = random_forest_model.predict(x_test)
+        random_forest.fit(x_train, y_train)
+        y_pred = random_forest.predict(x_test)
 
         report = classification_report(y_test, y_pred,output_dict=True)
         self.__save_classification_report(pd.DataFrame(report).transpose().round(3), 
                                           path_to_results, 
-                                          filename = "random_forest_report")
+                                          filename = f"random_forest_report_{i}")
         self.__save_confusion_matrix(confusion_matrix(y_test, y_pred), 
                                      path_to_results,
-                                     filename = "random_forest_confusion_matrix")
-        joblib.dump(random_forest_model, f"{path_to_results}/random_forest_model.pkl")
+                                     filename = f"random_forest_confusion_matrix_{i}")
+        self.__models[path_to_results]["random_forest"] = random_forest
 
     def train_linear_svc(self, x_train: pd.Series, x_test: pd.Series, 
                       y_train: pd.Series, y_test: pd.Series,
-                      path_to_results: str) -> None:
+                      path_to_results: str, random_state: int, 
+                      i: int = 0) -> None:
         """
         Trains Linear SVM and saves the confusion matrix and the report with various metrics, 
         such as accuracy, precision, f1-score, etc.
@@ -152,19 +171,21 @@ class ModelTrainer:
             y_train (pd.Series): The train part of the target variable.
             y_test (pd.Series): The test part of the target variable.
             path_to_results (str): The path where the result model will be saved.
+            random_state (int): The random state for model initialization.
+            i (int): The number the reflects the function call number (to gain statistics).
         """
-        linear_svc_model = LinearSVC(random_state = 0)
-        linear_svc_model.fit(x_train, y_train)
-        y_pred = linear_svc_model.predict(x_test)
+        linear_svc = LinearSVC(random_state = random_state)
+        linear_svc.fit(x_train, y_train)
+        y_pred = linear_svc.predict(x_test)
 
         report = classification_report(y_test, y_pred,output_dict=True)
         self.__save_classification_report(pd.DataFrame(report).transpose().round(3), 
                                           path_to_results, 
-                                          filename = "linear_svc_report")
+                                          filename = f"linear_svc_report_{i}")
         self.__save_confusion_matrix(confusion_matrix(y_test, y_pred), 
                                      path_to_results,
-                                     filename = "linear_svc_confusion_matrix")
-        joblib.dump(linear_svc_model, f"{path_to_results}/linear_svc_model.pkl")
+                                     filename = f"linear_svc_confusion_matrix_{i}")
+        self.__models[path_to_results]["linear_svc"] = linear_svc
 
     def __save_classification_report(self, report: pd.DataFrame, path_to_results: str, filename: str):
         """
@@ -217,3 +238,10 @@ class ModelTrainer:
         plt.savefig(f"{path_to_results}/{filename}.jpg", dpi=300, bbox_inches='tight')
         plt.close()
 
+    def save_models(self):
+        """
+        Saves all latest trained models to the corresponding paths.  
+        """
+        for path_to_results, inner_dict in self.__models.items():
+            for model_name, model in inner_dict.items():
+                joblib.dump(model, f"{path_to_results}/{model_name}.pkl")
