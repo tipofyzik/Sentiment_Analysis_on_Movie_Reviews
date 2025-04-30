@@ -3,9 +3,6 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 from gensim.models import Word2Vec
 
-from scipy.sparse import csr_matrix
-from scipy import sparse
-
 import pandas as pd
 import numpy as np
 import joblib
@@ -72,32 +69,3 @@ class FeatureExtractor:
         """
         joblib.dump(self.__tfidf_vectorizer, path_to_vectorizer)
 
-    def save_tfidf_features(self, x_train: csr_matrix, 
-                      x_test: csr_matrix,
-                      path_to_x_train: str,
-                      path_to_x_test: str) -> None:
-        """
-        Saves features etracted via TF-IDF algorithm. They are used to avoid repetition of the feature extraction process.
-
-        Args:
-            x_train (csr_matrix): Matrix with features extracted from the train part of the dataset. 
-            x_text (csr_matrix): Matrix with features extracted from the test part of the dataset.
-            path_to_x_train (str): The path where features of the train part of the dataset will be saved.
-            path_to_x_test (str): The path where features of the test part of the dataset will be saved.
-        """
-        sparse.save_npz(path_to_x_train, x_train)
-        sparse.save_npz(path_to_x_test, x_test)
-
-    def load_tfidf_features(self, path_to_x_train: str,
-                      path_to_x_test: str) -> tuple[csr_matrix]:
-        """
-
-        path_to_x_train (str): The path from which features of the train part of the dataset will be loaded.
-        path_to_x_test (str): The path from which features of the test part of the dataset will be loaded.
-
-        Retuns:
-            tuple[csr_matrix]: Features for the training and testing of various ML models.
-        """
-        x_train = sparse.load_npz(path_to_x_train)
-        x_test = sparse.load_npz(path_to_x_test)
-        return x_train, x_test
