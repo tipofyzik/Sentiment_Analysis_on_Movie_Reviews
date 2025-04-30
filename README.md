@@ -4,7 +4,7 @@ There are movie reviews collected from the internet. Basically, there are 2 data
 I uploaded datasets to google drive, so they can be simply put into the **code** folder for their processing. Datasets are available through this link: https://drive.google.com/drive/folders/1ACDrihk3dvMMEIhsVKuf3jsO6Rv7DDbP?usp=drive_link  
 
 The references to the original datasets:  
-1. stanford's Large Movie Review Dataset: https://ai.stanford.edu/~amaas/data/sentiment/  
+1. Stanford's Large Movie Review Dataset: https://ai.stanford.edu/~amaas/data/sentiment/  
 **However, for convenience, I used its .csv version (IMBD dataset) published on kaggle**: https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews   
 2. SAR14 dataset: https://github.com/daiquocnguyen/SAR14?tab=readme-ov-file  
 
