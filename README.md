@@ -1,7 +1,10 @@
 ## 1. Task formulation
 There are movie reviews collected from the internet. Basically, there are 2 datasets: stanford's Large Movie Review Dataset and SAR14 dataset. The goal is to train and evaluate the model(s) that will analyze the custom movie review and determine its overall sentiment. An outcome of a model should be either positive or negative, i.e., this is a binary classification task.  
 
-I uploaded datasets to google drive, so they can be simply put into the **code** folder for their processing. Datasets are available through this link: https://drive.google.com/drive/folders/1ACDrihk3dvMMEIhsVKuf3jsO6Rv7DDbP?usp=drive_link  
+I uploaded datasets to google drive, so they can be simply put into the **code** folder for their processing. You can also access confusion matrices and classification reports for various cases through this link:  
+https://drive.google.com/drive/folders/1ACDrihk3dvMMEIhsVKuf3jsO6Rv7DDbP?usp=drive_link  
+
+
 
 The references to the original datasets:  
 1. Stanford's Large Movie Review Dataset: https://ai.stanford.edu/~amaas/data/sentiment/  
@@ -12,8 +15,6 @@ Overall, there are two types (classes) of review with the following number of sa
 1. positive: 192,378 reviews  
 2. negative: 96,222 reviews  
 
-
-You can download the results on Kaggle: https://www.kaggle.com/code/tipofyzik/sentiment-analysis-of-movie-reviews  
 
 ## 2. Program installation
 ### Requirements 
