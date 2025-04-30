@@ -115,8 +115,8 @@ However, an issue arised during the training process. Namely, Word2Vec features 
 ### Models' accuracy  
 <table>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/e01440cf-f76c-46eb-ba25-277781d6cfcd"/></td>
-    <td><img src="https://github.com/user-attachments/assets/bdadaf5b-f483-412a-a4ca-d9965d43bf50"/></td>
+    <td><img src="https://github.com/user-attachments/assets/1107583a-1e48-49a3-be93-f7ddcc2f6414"/></td>
+    <td><img src="https://github.com/user-attachments/assets/9e39fe93-0a48-4064-abd2-524abfd1c7e4"/></td>
   </tr>
 </table>
  
