@@ -142,6 +142,7 @@ class ModelTrainer:
                                                      max_depth=10, 
                                                      n_jobs=-1,
                                                      random_state=random_state,
+                                                     class_weight = 'balanced',
                                                      min_samples_leaf=2,
                                                      max_features='sqrt')
         random_forest.fit(x_train, y_train)
@@ -173,8 +174,7 @@ class ModelTrainer:
             random_state (int): The random state for model initialization.
             i (int): The number the reflects the function call number (to gain statistics).
         """
-        linear_svc = LinearSVC(random_state = random_state,
-                               class_weight = 'balanced')
+        linear_svc = LinearSVC(random_state = random_state)
         linear_svc.fit(x_train, y_train)
         y_pred = linear_svc.predict(x_test)
 

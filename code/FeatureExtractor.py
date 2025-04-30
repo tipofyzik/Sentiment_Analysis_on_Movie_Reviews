@@ -34,9 +34,8 @@ class FeatureExtractor:
         self.__tfidf_vectorizer = TfidfVectorizer(stop_words='english', 
                                            max_features = 5000,
                                            ngram_range=(1, 3),  #(1,2) gives almost the same result
-                                        #    min_df=5,
-                                        #    max_df=0.8,
-                                        #    binary=False, 
+                                           min_df=5,
+                                           max_df=0.8,
                                            token_pattern = r'\b\w[\w\'-]*\b')
         
         x_train_tfidf = self.__tfidf_vectorizer.fit_transform(x_train)

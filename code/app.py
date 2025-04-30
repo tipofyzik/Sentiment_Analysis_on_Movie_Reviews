@@ -168,7 +168,8 @@ if __name__ == "__main__":
     # WORD2VEC FEATURES
     reviews_train = x_train.tolist()
     reviews_test = x_test.tolist()
-    word2vec_model = Word2Vec(sentences=reviews_train, sg = 1, vector_size=100, window=3, min_count=2, workers=4, seed = 0)
+    word2vec_model = Word2Vec(sentences = reviews_train, vector_size=100, window=3, 
+                              min_count=2, workers=4, seed = model_random_state)
     x_train_w2v = np.array([feature_extractor.extract_word2vec_features(word2vec_model = word2vec_model, 
                                                                         review = review) 
                                                                         for review in reviews_train])
