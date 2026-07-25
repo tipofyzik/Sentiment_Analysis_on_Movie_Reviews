@@ -41,35 +41,7 @@ There are 4 classes ensure the program works:
 **· PredictCustomReviewApp** is a separate class which is a GUI application for the sentiment prediction of a custom movie review. It can be run individually after models training.  
 
 ### 4.2. Config file
-Config file contains settings for different stages of data analysis and training. There are 6 parameter categories in this .json file:  
-_**· DatasetsPaths:**_  
-&emsp;&emsp; — path_to_stanford_movie_reviews_dataset: Path to the stanford's Movie Review dataset in .csv format.   
-&emsp;&emsp; — path_to_sar14_dataset_txt: Path to the SAR14 dataset in .txt format.   
-&emsp;&emsp; — path_to_sar14_dataset_csv: Path to the SAR14 dataset in .csv format.  
-_**· DataPreprocessingParameters:**_  
-&emsp;&emsp; — path_to_stanford_movie_reviews_dataset_cleaned: Path to the cleaned from noise stanford's Movie Review dataset in .csv format (to avoid repetition of the cleaning process).   
-&emsp;&emsp; — path_to_sar14_dataset_cleaned: Path to the cleaned from noise SAR14 dataset in .csv format (to avoid repetition of the cleaning process).  
-&emsp;&emsp; — data_is_preprocessed: Shows whether data was preprocessed or not. If the value is 0, then the original data have not been preprocessed yet, otherwise it have been (to avoid repetition of the cleaning process).  
-&emsp;&emsp; — spacy_batch_size: Determines how many rewiews should be preprocessed simultaneously. It is used to speed up preprocessing.  
-&emsp;&emsp; — spacy_n_process: Multiprocessing to speed up preprocessing. If the value is -1, then all cpu cores are used. In this case, I left 1 core to for preprocessing.  
-_**· FeatureExtractorParameters:**_  
-&emsp;&emsp; — path_to_features: Path to save vectorizers and models (for preparation of the custom reviews).    
-&emsp;&emsp; — path_to_tfidf_vectorizer: Path to the TF-IDF vectorizer that will be used further to prepare custom review for evaluation.   
-&emsp;&emsp; — path_to_w2v_model: Path to the Word2Vec that will be used further to prepare custom review for evaluation.    
-&emsp;&emsp; — balance_datasets: Determines whether classes of the datasets should be balanced or not.  If the value is 0, datasets will be balanced, otherwise the distribution will remain the same.  
-_**· ModelTrainerParameters:**_  
-&emsp;&emsp; — sample_test_size: Determines the test size for the split function.  
-&emsp;&emsp; — training_number: Determines how many times models will be trained from the scratch. This parameter was created to gain the statistics and evaluate models' stability. The default value is 1.   
-&emsp;&emsp; — model_random_state: Determines the random state for the split funciton and the ML models to provide reproducibility.  
-&emsp;&emsp; — logistic_regression_trained: Shows whether logistic regression model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).           
-&emsp;&emsp; — naive_bayes_trained: Shows whether naive bayes model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).  
-&emsp;&emsp; — random_forest_trained: Shows whether random forest model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).  
-&emsp;&emsp; — linear_svc_trained: Shows whether linear SVM is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).  
-_**· ResultSaver:**_  
-&emsp;&emsp; — path_to_results: Path to results folder.   
-&emsp;&emsp; — path_to_tfidf_result_models: Path to models trained on TF-IDF features.   
-&emsp;&emsp; — path_to_w2v_result_models: Path to models trained on Word2Vec features.   
-
+Config file contains settings for different stages of data analysis and training. For further information, read the **config_explanation.txt**. 
 ### 4.3. Launch file
 The **"app.py"** file analyzes data, preprocesses it, extracts features and trains models on these features. Let's go through a step-by-step explanation of what happens there. The program:  
 1. Imports all the custom classes and reads parameters from **"config.json"**.  
