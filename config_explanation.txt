@@ -1,0 +1,29 @@
+Config file contains settings for different stages of data analysis and training. There are 6 parameter categories in this .json file:  
+
+· DatasetsPaths:
+   — path_to_stanford_movie_reviews_dataset: Path to the stanford's Movie Review dataset in .csv format.
+   — path_to_sar14_dataset_txt: Path to the SAR14 dataset in .txt format.
+   — path_to_sar14_dataset_csv: Path to the SAR14 dataset in .csv format.
+· DataPreprocessingParameters:
+   — path_to_stanford_movie_reviews_dataset_cleaned: Path to the cleaned from noise stanford's Movie Review dataset in .csv format (to avoid repetition of the cleaning process).
+   — path_to_sar14_dataset_cleaned: Path to the cleaned from noise SAR14 dataset in .csv format (to avoid repetition of the cleaning process).
+   — data_is_preprocessed: Shows whether data was preprocessed or not. If the value is 0, then the original data have not been preprocessed yet, otherwise it have been (to avoid repetition of the cleaning process).
+   — spacy_batch_size: Determines how many rewiews should be preprocessed simultaneously. It is used to speed up preprocessing.
+   — spacy_n_process: Multiprocessing to speed up preprocessing. If the value is -1, then all cpu cores are used. In this case, I left 1 core to for preprocessing.
+· FeatureExtractorParameters:
+   — path_to_features: Path to save vectorizers and models (for preparation of the custom reviews).
+   — path_to_tfidf_vectorizer: Path to the TF-IDF vectorizer that will be used further to prepare custom review for evaluation.
+   — path_to_w2v_model: Path to the Word2Vec that will be used further to prepare custom review for evaluation.
+   — balance_datasets: Determines whether classes of the datasets should be balanced or not. If the value is 0, datasets will be balanced, otherwise the distribution will remain the same.
+· ModelTrainerParameters:
+   — sample_test_size: Determines the test size for the split function.
+   — training_number: Determines how many times models will be trained from the scratch. This parameter was created to gain the statistics and evaluate models' stability. The default value is 1.
+   — model_random_state: Determines the random state for the split funciton and the ML models to provide reproducibility.
+   — logistic_regression_trained: Shows whether logistic regression model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).
+   — naive_bayes_trained: Shows whether naive bayes model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).
+   — random_forest_trained: Shows whether random forest model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).
+   — linear_svc_trained: Shows whether linear SVM is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).
+· ResultSaver:
+   — path_to_results: Path to results folder.
+   — path_to_tfidf_result_models: Path to models trained on TF-IDF features.
+   — path_to_w2v_result_models: Path to models trained on Word2Vec features.
