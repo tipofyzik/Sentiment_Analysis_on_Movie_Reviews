@@ -14,8 +14,8 @@ import re
 with open('config.json', 'r') as f:
     config = json.load(f)
 
-path_to_sar14_dataset_txt = config['DatasetsPaths']['path_to_sar14_dataset_txt']
-path_to_sar14_dataset_csv= config['DatasetsPaths']['path_to_sar14_dataset_csv']
+path_to_sar14_dataset_txt = config["paths"]["datasets"]["sar14_txt"]
+path_to_sar14_dataset_csv = config["paths"]["datasets"]["sar14_csv"]
 SAR14_data = []
 
 

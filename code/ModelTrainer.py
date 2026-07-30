@@ -9,6 +9,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 from collections import defaultdict
+from scipy.sparse import spmatrix
 import seaborn as sns
 import pandas as pd
 import numpy as np
@@ -61,7 +62,7 @@ class ModelTrainer:
                                     filename = f"logistic_regression_confusion_matrix_{i}")
         self.__models[path_to_results]["logistic_regression"] = logistic_regression
 
-    def train_naive_bayes(self, x_train: pd.Series, x_test: pd.Series, 
+    def train_naive_bayes(self, x_train: spmatrix, x_test: spmatrix, 
                       y_train: pd.Series, y_test: pd.Series,
                       path_to_results: str, random_state: int, 
                       i: int = 0) -> None:
@@ -70,8 +71,8 @@ class ModelTrainer:
         such as accuracy, precision, f1-score, etc. It is used for features extracted via TF-IDF algorithm.
 
         Args: 
-            x_train (pd.Series): The train part of features.
-            x_test (pd.Series): The test part of features.
+            x_train (spmatrix): The train part of features.
+            x_test (spmatrix): The test part of features.
             y_train (pd.Series): The train part of the target variable.
             y_test (pd.Series): The test part of the target variable.
             path_to_results (str): The path where the result model will be saved.
@@ -91,17 +92,17 @@ class ModelTrainer:
                                      filename = f"naive_bayes_confusion_matrix_{i}")
         self.__models[path_to_results]["naive_bayes"] = naive_bayes
 
-    def train_gauss_naive_bayes(self, x_train: pd.Series, x_test: pd.Series, 
+    def train_gauss_naive_bayes(self, x_train: spmatrix, x_test: spmatrix, 
                       y_train: pd.Series, y_test: pd.Series,
-                      path_to_results: str, random_state: int, 
+                      path_to_results: str, random_state: int = 0, 
                       i: int = 0) -> None:
         """
         Trains Gaussian Naive Bayes model and saves the confusion matrix and the report with various metrics, 
         such as accuracy, precision, f1-score, etc. It is used for features extracted via Word2Vec algorithm.
 
         Args: 
-            x_train (pd.Series): The train part of features.
-            x_test (pd.Series): The test part of features.
+            x_train (spmatrix): The train part of features.
+            x_test (spmatrix): The test part of features.
             y_train (pd.Series): The train part of the target variable.
             y_test (pd.Series): The test part of the target variable.
             path_to_results (str): The path where the result model will be saved.
@@ -199,7 +200,10 @@ class ModelTrainer:
         """
         _, ax = plt.subplots(figsize=(10, 6))
         ax.axis('off')
-        table = ax.table(cellText=report.values, colLabels=report.columns, rowLabels=report.index, loc='center')
+        cell_text: list[list[str]] = report.astype(str).values.tolist()
+        column_labels: list[str] = report.columns.astype(str).tolist()
+        row_labels: list[str] = report.index.astype(str).tolist()
+        table = ax.table(cellText=cell_text, colLabels=column_labels, rowLabels=row_labels, loc='center')
 
         table.auto_set_font_size(False)
         table.set_fontsize(10)

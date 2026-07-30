@@ -5,24 +5,24 @@ from DataPreprocessor import DataPreprocessor
 from gensim.models import Word2Vec
 
 from scipy.sparse import csr_matrix
-import sklearn
+from typing import Any
 
 import numpy as np
 import joblib
-import json
+import yaml
 
 
 
-with open('config.json', 'r') as f:
-    config = json.load(f)
+with open('config.yml', 'r') as f:
+    config = yaml.safe_load(f)
 
-spacy_batch_size = config["DataPreprocessingParameters"]["spacy_batch_size"]
-spacy_n_process = config["DataPreprocessingParameters"]["spacy_n_process"]
-path_to_tfidf_vectorizer = config["FeatureExtractorParameters"]["path_to_tfidf_vectorizer"]
-path_to_w2v_model = config["FeatureExtractorParameters"]["path_to_w2v_model"]
+spacy_batch_size = config["preprocessing"]["spacy"]["batch_size"]
+spacy_n_process = config["preprocessing"]["spacy"]["n_process"]
+path_to_tfidf_vectorizer = config["paths"]["models"]["tfidf_vectorizer"]
+path_to_w2v_model = config["paths"]["models"]["word2vec"]
 
-path_to_tfidf_result_models = config["ResultSaver"]["path_to_tfidf_result_models"]
-path_to_w2v_result_models = config["ResultSaver"]["path_to_w2v_result_models"]
+path_to_tfidf_result_models = config["paths"]["result_models"]["tfidf"]
+path_to_w2v_result_models = config["paths"]["result_models"]["word2vec"]
 
 data_preprocessor = DataPreprocessor(spacy_batch_size = spacy_batch_size, spacy_n_process = spacy_n_process)
 tfidf_vectorizer = joblib.load(path_to_tfidf_vectorizer)
@@ -142,7 +142,7 @@ class PredictCustomReviewApp:
         prediction = "negative" if prediction == 0 else "positive"
         self.result_label.config(text=f"Sentiment: {prediction.capitalize()}", fg="blue")
 
-    def load_model(self, model_name, feature_method) -> sklearn.base.BaseEstimator:
+    def load_model(self, model_name, feature_method) -> Any:
         """
         Loads a pre-trained classification model based on the selected name and feature method.
 
@@ -201,7 +201,7 @@ class PredictCustomReviewApp:
         features = tfidf_vectorizer.transform(review)
         return features
 
-    def extract_word2vec(self, text: list[str]) -> np.ndarray:
+    def extract_word2vec(self, review: str) -> np.ndarray:
         """
         Transforms the input text into a feature vector using a Word2Vec model.
 
@@ -212,7 +212,7 @@ class PredictCustomReviewApp:
             np.ndarray: A 1D averaged Word2Vec feature vector.
         """
         w2v_model = Word2Vec.load(path_to_w2v_model)
-        features = self.extract_word2vec_features(w2v_model, text)
+        features = self.extract_word2vec_features(w2v_model, review)
         return features.reshape(1, -1)
 
     def extract_word2vec_features(self, word2vec_model: Word2Vec, review: str) -> np.ndarray:

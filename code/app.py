@@ -147,7 +147,7 @@ if __name__ == "__main__":
                                         replace=False, 
                                         n_samples=len(data_negative), 
                                         random_state=0)
-        balanced_data = pd.concat([data_positive_downsampled, data_negative])
+        balanced_data = pd.concat([pd.DataFrame(data_positive_downsampled), data_negative])
         balanced_data = balanced_data.sample(frac=1, random_state=0)
 
         x, y = balanced_data["review"], balanced_data["sentiment"]
