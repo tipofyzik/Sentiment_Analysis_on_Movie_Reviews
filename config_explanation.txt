@@ -1,29 +1,41 @@
-Config file contains settings for different stages of data analysis and training. There are 6 parameter categories in this .json file:  
+Configuration file (`config.yml`) contains settings for different stages of data preprocessing, feature extraction, model training, and saving results. The file consists of 4 main parameter categories:
 
-· DatasetsPaths:
-   — path_to_stanford_movie_reviews_dataset: Path to the stanford's Movie Review dataset in .csv format.
-   — path_to_sar14_dataset_txt: Path to the SAR14 dataset in .txt format.
-   — path_to_sar14_dataset_csv: Path to the SAR14 dataset in .csv format.
-· DataPreprocessingParameters:
-   — path_to_stanford_movie_reviews_dataset_cleaned: Path to the cleaned from noise stanford's Movie Review dataset in .csv format (to avoid repetition of the cleaning process).
-   — path_to_sar14_dataset_cleaned: Path to the cleaned from noise SAR14 dataset in .csv format (to avoid repetition of the cleaning process).
-   — data_is_preprocessed: Shows whether data was preprocessed or not. If the value is 0, then the original data have not been preprocessed yet, otherwise it have been (to avoid repetition of the cleaning process).
-   — spacy_batch_size: Determines how many rewiews should be preprocessed simultaneously. It is used to speed up preprocessing.
-   — spacy_n_process: Multiprocessing to speed up preprocessing. If the value is -1, then all cpu cores are used. In this case, I left 1 core to for preprocessing.
-· FeatureExtractorParameters:
-   — path_to_features: Path to save vectorizers and models (for preparation of the custom reviews).
-   — path_to_tfidf_vectorizer: Path to the TF-IDF vectorizer that will be used further to prepare custom review for evaluation.
-   — path_to_w2v_model: Path to the Word2Vec that will be used further to prepare custom review for evaluation.
-   — balance_datasets: Determines whether classes of the datasets should be balanced or not. If the value is 0, datasets will be balanced, otherwise the distribution will remain the same.
-· ModelTrainerParameters:
-   — sample_test_size: Determines the test size for the split function.
-   — training_number: Determines how many times models will be trained from the scratch. This parameter was created to gain the statistics and evaluate models' stability. The default value is 1.
-   — model_random_state: Determines the random state for the split funciton and the ML models to provide reproducibility.
-   — logistic_regression_trained: Shows whether logistic regression model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).
-   — naive_bayes_trained: Shows whether naive bayes model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).
-   — random_forest_trained: Shows whether random forest model is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).
-   — linear_svc_trained: Shows whether linear SVM is trained or not. If the value is 0, then it has not been trained yet, otherwise it has been (to avoid repetition of the training process).
-· ResultSaver:
-   — path_to_results: Path to results folder.
-   — path_to_tfidf_result_models: Path to models trained on TF-IDF features.
-   — path_to_w2v_result_models: Path to models trained on Word2Vec features.
+· **paths:**
+  — **datasets:**
+    — **stanford_movie_reviews:** Path to the Stanford Movie Reviews dataset in `.csv` format.
+    — **sar14_txt:** Path to the SAR14 dataset in `.txt` format.
+    — **sar14_csv:** Path to the SAR14 dataset in `.csv` format.
+  — **cleaned_datasets:**
+    — **stanford_movie_reviews:** Path to the cleaned Stanford Movie Reviews dataset. Used to avoid repeating the preprocessing stage.
+    — **sar14:** Path to the cleaned SAR14 dataset. Used to avoid repeating the preprocessing stage.
+  — **features:** Directory where feature extraction artifacts (vectorizers and embeddings) are stored.
+  — **results:** Root directory for storing training results.
+  — **models:**
+    — **tfidf_vectorizer:** Path to the saved TF-IDF vectorizer used to preprocess custom reviews.
+    — **word2vec:** Path to the saved Word2Vec model used to generate word embeddings for custom reviews.
+  — **result_models:**
+    — **tfidf:** Directory for models trained on TF-IDF features.
+    — **word2vec:** Directory for models trained on Word2Vec features.
+
+· **preprocessing:**
+  — **data_is_preprocessed:** Indicates whether the datasets have already been preprocessed. If `false`, the original datasets will be cleaned and saved to the paths specified in `paths.cleaned_datasets`. If `true`, the cleaned datasets will be loaded directly.
+  — **spacy:**
+    — **batch_size:** Number of reviews processed simultaneously by spaCy to improve preprocessing performance.
+    — **n_process:** Number of worker processes used by spaCy during preprocessing. Set to `-1` to use all available CPU cores.
+
+· **feature_extraction:**
+  — **balance_datasets:** Determines whether the dataset classes should be balanced before training. If `true`, the majority class will be downsampled to match the minority class.
+  — **tfidf:**
+    — **enabled:** Enables or disables TF-IDF feature extraction.
+  — **word2vec:**
+    — **enabled:** Enables or disables Word2Vec feature extraction.
+
+· **training:**
+  — **test_size:** Fraction of the dataset reserved for testing during the train-test split.
+  — **training_number:** Number of independent training runs. This parameter can be used to evaluate model stability across multiple runs.
+  — **random_state:** Random seed used for dataset splitting and machine learning models to ensure reproducibility.
+  — **models:**
+    — **logistic_regression:** Indicates whether the Logistic Regression model has already been trained. If `false`, the model will be trained; otherwise, training will be skipped.
+    — **naive_bayes:** Indicates whether the Naive Bayes model has already been trained.
+    — **random_forest:** Indicates whether the Random Forest model has already been trained.
+    — **linear_svc:** Indicates whether the Linear Support Vector Classifier has already been trained.
