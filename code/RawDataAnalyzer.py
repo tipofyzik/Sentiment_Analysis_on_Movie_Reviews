@@ -22,12 +22,12 @@ class RawDataAnalyzer:
         self.__dataset = dataset
         self.__dataset_name = dataset_name
 
-    def __get_dataset_shape(self) -> pd.DataFrame.shape:
+    def get_dataset_shape(self) -> tuple[int, int]:
         """
         Retrieves the shape of the dataset. 
 
         Returns:
-            (pd.DataFrame.shape): The shape of the dataset.
+            (tuple[int, int]): The shape of the dataset.
         """
         return self.__dataset.shape
 
@@ -35,9 +35,9 @@ class RawDataAnalyzer:
         """
         Prints the shape of the dataset.
         """
-        print(f"The shape of the \'{self.__dataset_name}\' is {self.__get_dataset_shape()}")
+        print(f"The shape of the \'{self.__dataset_name}\' is {self.get_dataset_shape()}")
 
-    def __check_null_values(self) -> bool:
+    def check_null_values(self) -> bool:
         """
         Sums up all the null values found in the table and calculates 
         the boolean value that reflects the presence of null values.
@@ -53,7 +53,7 @@ class RawDataAnalyzer:
         """
         Prints whether the dataset has null values or not.
         """
-        self.__check_null_values()
+        self.check_null_values()
         if self.__have_null:
             print(f"There are {self.__null_sum} of null values in the \'{self.__dataset_name}\'.")
         else:

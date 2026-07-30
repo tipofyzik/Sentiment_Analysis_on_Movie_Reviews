@@ -1,0 +1,71 @@
+# ==========================================
+# Paths
+# ==========================================
+paths:
+    datasets:
+        stanford_movie_reviews: ./datasets/IMDB_Dataset_of_50K_Movie_Reviews/IMDB Dataset.csv
+        sar14_txt: ./datasets/SAR14/SAR14.txt
+        sar14_csv: ./datasets/SAR14/SAR14.csv
+
+    # Cleaned datasets are used when preprocessing
+    # has already been completed.
+    cleaned_datasets:
+        stanford_movie_reviews: ./datasets/stanford_movie_reviews_dataset_cleaned.csv
+        sar14: ./datasets/sar14_dataset_cleaned.csv
+
+    # Directories for generated artifacts.
+    features: ./features
+    results: ./results
+
+    # Saved vectorizers and embedding models.
+    models:
+        tfidf_vectorizer: ./features/tfidf_vectorizer.pkl
+        word2vec: ./features/word2vec_model.bin
+
+    # Directories for trained classifiers.
+    result_models:
+        tfidf: ./results/TF-IDF
+        word2vec: ./results/Word2Vec
+
+# ==========================================
+# Data preprocessing
+# ==========================================
+preprocessing:
+    # Set to true to reuse previously cleaned datasets.
+    data_is_preprocessed: true
+
+    spacy:
+        batch_size: 256
+        # Use -1 to utilize all available CPU cores.
+        n_process: 1
+
+# ==========================================
+# Feature extraction
+# ==========================================
+feature_extraction:
+    # Downsample the majority class before training.
+    balance_datasets: false
+
+    # Enables or disables extraction of TF-IDF features.
+    tfidf:
+        enabled: true
+
+    # Enables or disables extraction of Word2Vec features.
+    word2vec:
+        enabled: true
+
+# ==========================================
+# Model training
+# ==========================================
+training:
+    test_size: 0.3
+    training_number: 1
+    random_state: 0
+
+    # false -> train model
+    # true  -> model has already been trained
+    models:
+        logistic_regression: false
+        naive_bayes: true
+        random_forest: true
+        linear_svc: true

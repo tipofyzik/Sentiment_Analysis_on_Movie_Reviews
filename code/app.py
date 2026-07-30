@@ -10,53 +10,57 @@ from gensim.models import Word2Vec
 
 import pandas as pd
 import numpy as np
-import json
+import yaml
 import os
 
 
 
 # Accessing parameters for application to work
-with open('config.json', 'r') as f:
-    config = json.load(f)
+with open('config.yml', 'r') as f:
+    config = yaml.safe_load(f)
 
-path_to_features = config["FeatureExtractorParameters"]["path_to_features"]
+path_to_features = config["paths"]["features"]
 os.makedirs(path_to_features, exist_ok=True)
 
-path_to_results = config["ResultSaver"]["path_to_results"]
+path_to_results = config["paths"]["results"]
 os.makedirs(path_to_results, exist_ok=True)
-path_to_tfidf_result_models = config["ResultSaver"]["path_to_tfidf_result_models"]
-path_to_w2v_result_models = config["ResultSaver"]["path_to_w2v_result_models"]
+
+path_to_tfidf_result_models = config["paths"]["result_models"]["tfidf"]
+path_to_w2v_result_models = config["paths"]["result_models"]["word2vec"]
 os.makedirs(path_to_tfidf_result_models, exist_ok=True)
 os.makedirs(path_to_w2v_result_models, exist_ok=True)
 
+# Accessing original data
+path_to_stanford_movie_reviews_dataset = config["paths"]["datasets"]["stanford_movie_reviews"]
+path_to_sar14_dataset_txt = config["paths"]["datasets"]["sar14_txt"]
+path_to_sar14_dataset = config["paths"]["datasets"]["sar14_csv"]
 
+# Accessing preprocessing parameters
+path_to_stanford_movie_reviews_dataset_cleaned = config["paths"]["cleaned_datasets"]["stanford_movie_reviews"]
+path_to_sar14_dataset_cleaned = config["paths"]["cleaned_datasets"]["sar14"]
 
-# Accessing original data.
-path_to_stanford_movie_reviews_dataset = config["DatasetsPaths"]["path_to_stanford_movie_reviews_dataset"]
-path_to_sar14_dataset = config["DatasetsPaths"]["path_to_sar14_dataset_csv"]
+data_is_preprocessed = config["preprocessing"]["data_is_preprocessed"]
+spacy_batch_size = config["preprocessing"]["spacy"]["batch_size"]
+spacy_n_process = config["preprocessing"]["spacy"]["n_process"]
 
-# Accessing processing parameters and already preprocessed data if exists.
-path_to_stanford_movie_reviews_dataset_cleaned = config["DataPreprocessingParameters"]["path_to_stanford_movie_reviews_dataset_cleaned"]
-path_to_sar14_dataset_cleaned = config["DataPreprocessingParameters"]["path_to_sar14_dataset_cleaned"]
-data_is_preprocessed = config["DataPreprocessingParameters"]["data_is_preprocessed"]
-spacy_batch_size = config["DataPreprocessingParameters"]["spacy_batch_size"]
-spacy_n_process = config["DataPreprocessingParameters"]["spacy_n_process"]
+# Feature extraction parameters
+balance_datasets = config["feature_extraction"]["balance_datasets"]
 
-# To save vectorizers and models for tokenizing custom reviews.
-balance_dasets = bool(config["FeatureExtractorParameters"]["balance_dasets"])
-path_to_tfidf_vectorizer = config["FeatureExtractorParameters"]["path_to_tfidf_vectorizer"]
-path_to_w2v_model = config["FeatureExtractorParameters"]["path_to_w2v_model"]
+tfidf_enabled = config["feature_extraction"]["tfidf"]["enabled"]
+word2vec_enabled = config["feature_extraction"]["word2vec"]["enabled"]
 
-#Accessing parameters for model training
-sample_test_size = config["ModelTrainerParameters"]["sample_test_size"]
-training_number = config["ModelTrainerParameters"]["training_number"]
-model_random_state = config["ModelTrainerParameters"]["model_random_state"]
-logistic_regression_trained = bool(config["ModelTrainerParameters"]["logistic_regression_trained"])
-naive_bayes_trained = bool(config["ModelTrainerParameters"]["naive_bayes_trained"])
-random_forest_trained = bool(config["ModelTrainerParameters"]["random_forest_trained"])
-linear_svc_trained = bool(config["ModelTrainerParameters"]["linear_svc_trained"])
+path_to_tfidf_vectorizer = config["paths"]["models"]["tfidf_vectorizer"]
+path_to_w2v_model = config["paths"]["models"]["word2vec"]
 
+# Model training parameters
+sample_test_size = config["training"]["test_size"]
+training_number = config["training"]["training_number"]
+model_random_state = config["training"]["random_state"]
 
+logistic_regression_trained = config["training"]["models"]["logistic_regression"]
+naive_bayes_trained = config["training"]["models"]["naive_bayes"]
+random_forest_trained = config["training"]["models"]["random_forest"]
+linear_svc_trained = config["training"]["models"]["linear_svc"]
 
 # To avoid the repetition of preprocessing
 if data_is_preprocessed:
@@ -129,13 +133,13 @@ if __name__ == "__main__":
                                            column_to_preprocess = "review", 
                                            path_to_save = path_to_sar14_dataset_cleaned,
                                            dataset_name = "SAR14 dataset")
-        config["DataPreprocessingParameters"]["data_is_preprocessed"] = 1
+        config["preprocessing"]["data_is_preprocessed"] = True
     print("Data preprocessing accomplished.")
 
     data = pd.concat([stanford_dataset, sar14_dataset], ignore_index=True)
     data['sentiment'] = data['sentiment'].map({'positive': 1, 'negative': 0})
 
-    if balance_dasets:
+    if balance_datasets:
         data_positive = data[data['sentiment'] == 1]
         data_negative = data[data['sentiment'] == 0]
 
@@ -168,8 +172,8 @@ if __name__ == "__main__":
     # WORD2VEC FEATURES
     reviews_train = x_train.tolist()
     reviews_test = x_test.tolist()
-    word2vec_model = Word2Vec(sentences = reviews_train, vector_size=100, window=3, 
-                              min_count=2, workers=4, seed = model_random_state)
+    word2vec_model = Word2Vec(sentences = reviews_train, vector_size=100, window=8, 
+                              min_count=1, workers=4, seed = model_random_state)
     x_train_w2v = np.array([feature_extractor.extract_word2vec_features(word2vec_model = word2vec_model, 
                                                                         review = review) 
                                                                         for review in reviews_train])
@@ -193,24 +197,24 @@ if __name__ == "__main__":
         if not logistic_regression_trained:
             model_trainer.train_log_reg(*tfidf_parameters_for_training, i = iteration)
             model_trainer.train_log_reg(*word2vec_parameters_for_training, i = iteration)
+            config["training"]["models"]["logistic_regression"] = True
         if not naive_bayes_trained:
             model_trainer.train_naive_bayes(*tfidf_parameters_for_training, i = iteration)
             model_trainer.train_gauss_naive_bayes(*word2vec_parameters_for_training, i = iteration)
+            config["training"]["models"]["naive_bayes"] = True
         if not random_forest_trained:
             model_trainer.train_random_forest(*tfidf_parameters_for_training, i = iteration)
             model_trainer.train_random_forest(*word2vec_parameters_for_training, i = iteration)
+            config["training"]["models"]["random_forest"] = True
         if not linear_svc_trained:
             model_trainer.train_linear_svc(*tfidf_parameters_for_training, i = iteration)
             model_trainer.train_linear_svc(*word2vec_parameters_for_training, i = iteration)
+            config["training"]["models"]["linear_svc"] = True
 
-    config["ModelTrainerParameters"]["logistic_regression_trained"] = 1
-    config["ModelTrainerParameters"]["naive_bayes_trained"] = 1
-    config["ModelTrainerParameters"]["random_forest_trained"] = 1
-    config["ModelTrainerParameters"]["linear_svc_trained"] = 1
     model_trainer.save_models()
     print("Models training accomplished.")
 
 
 
-    with open("./config.json", "w", encoding="utf-8") as file:
-        json.dump(config, file, indent=4, ensure_ascii=False)
+    with open("./config.yml", "w", encoding="utf-8") as file:
+        yaml.dump(config, file, indent=4, allow_unicode=True, sort_keys=False)
