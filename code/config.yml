@@ -32,7 +32,7 @@ paths:
 # ==========================================
 preprocessing:
     # Set to true to reuse previously cleaned datasets.
-    data_is_preprocessed: true
+    data_is_preprocessed: false
 
     spacy:
         batch_size: 256
@@ -66,6 +66,6 @@ training:
     # true  -> model has already been trained
     models:
         logistic_regression: false
-        naive_bayes: true
-        random_forest: true
-        linear_svc: true
+        naive_bayes: false
+        random_forest: false
+        linear_svc: false
