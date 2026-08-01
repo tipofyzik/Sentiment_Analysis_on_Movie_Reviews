@@ -92,23 +92,23 @@ However, an issue arised during the training process. Namely, Word2Vec features 
 <table>
   <tr>
     <td width="50%">
-      <img width="2955" height="1762" alt="accuracy_comparison" src="https://github.com/user-attachments/assets/ba160745-cd18-413e-9d51-2ad2ec286c89" />
+      <img width="2955" height="1762" alt="accuracy_comparison" src="https://github.com/user-attachments/assets/55502e9d-8d88-4e94-857e-fe76f4a8868b" />
     </td>
     <td width="50%">
-      <img width="2955" height="1762" alt="f1-score_comparison" src="https://github.com/user-attachments/assets/8169e476-02ad-4333-89e6-4d7e67b59fe0" />
+      <img width="2955" height="1762" alt="f1-score_comparison" src="https://github.com/user-attachments/assets/f142172e-f642-46a3-b105-2862c5daccb6" />
     </td>
   </tr>
   <tr>
     <td width="50%">
-      <img width="2955" height="1762" alt="precision_comparison" src="https://github.com/user-attachments/assets/43f4ef8a-3bdb-4716-bd18-f94e8d476227" />
+      <img width="2955" height="1762" alt="precision_comparison" src="https://github.com/user-attachments/assets/789f0d21-9025-4d2a-8ffd-057a618fedd9" />
     </td>
     <td width="50%">
-      <img width="2955" height="1762" alt="recall_comparison" src="https://github.com/user-attachments/assets/b1e9bd2d-8311-4e10-bff0-8774c3cc896d" />
+      <img width="2955" height="1762" alt="recall_comparison" src="https://github.com/user-attachments/assets/98d3f740-5226-42d3-a46b-22d0e653b26b" />
     </td>
   </tr>
 </table> 
 
-<img width="2850" height="1000" alt="model_metrics_confidence_table" src="https://github.com/user-attachments/assets/d68d2fff-a8c3-4ab4-9b29-2cd4820b2be7" />
+<img width="2850" height="1056" alt="model_metrics_confidence_table" src="https://github.com/user-attachments/assets/517f1bb8-de83-4753-980c-eae98317c4a4" />
 
 
 
