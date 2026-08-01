@@ -85,11 +85,19 @@ There are four trained models: Linear Regression, Linear SVM, Random Forest, and
 However, an issue arised during the training process. Namely, Word2Vec features may contain negative values, while TF-IDF features can not. It affects the training of the Naive Bayes model. As a result, to process TF-IDF features Multinomial Naive Bayes is used, while for Word2Vec features Gaussian Naive Bayes is utilized.  
 
 ## 5. Results of the work
+10 runs. split 20/80
+
+
 ### Models' accuracy  
 <table>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/1107583a-1e48-49a3-be93-f7ddcc2f6414"/></td>
-    <td><img src="https://github.com/user-attachments/assets/9e39fe93-0a48-4064-abd2-524abfd1c7e4"/></td>
+    <td><img src=<img width="2955" height="1762" alt="accuracy_comparison" src="https://github.com/user-attachments/assets/90400874-fe61-4b31-b3c0-6047769561fa" />
+  /></td>
+    <td><img src=<img width="2955" height="1762" alt="f1-score_comparison" src="https://github.com/user-attachments/assets/9498479e-07b4-45b3-bb09-85791dbc3f7e" />
+  /></td>
+  </tr>
+  <tr>
+    
   </tr>
 </table>
  
