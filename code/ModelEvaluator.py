@@ -209,7 +209,11 @@ class ModelEvaluator:
             )
             plt.xlabel("Predicted label")
             plt.ylabel("True label")
-            plt.title(f"{model_name} ({feature_type})")
+            num_runs = len(matrices)
+            plt.title(
+                f"Average Confusion Matrix\n"
+                f"{model_name} ({feature_type}), n={num_runs}"
+            )
             plt.savefig(
                 f"{path_to_results}/"
                 f"{model_name}_{feature_type}_confusion_matrix.jpg",
@@ -276,7 +280,14 @@ class ModelEvaluator:
             categories=model_order,
             ordered=True,
         )
+        dataframe["feature"] = dataframe["feature"].replace(
+            {
+                "tf_idf": "TF-IDF features",
+                "word2vec": "Word2Vec features",
+            }
+        )
 
+        num_runs = len(next(iter(self.reports.values())))
         for metric in metrics:
             plt.figure(figsize=(10, 6))
             plot = sns.barplot(
@@ -293,7 +304,9 @@ class ModelEvaluator:
                     plot.bar_label(container, fmt="%.3f", padding=3)
 
             plt.ylim(0, 1.1)
-            plt.title(f"Model comparison by {metric}")
+            plt.title(
+                f"Comparison of Average {metric.capitalize()} over {num_runs} runs"
+            )
             plt.ylabel(metric)
             plt.xlabel("Model")
             plt.legend(bbox_to_anchor=(0.5, 1.15), loc="center", ncol=2)
@@ -353,8 +366,13 @@ class ModelEvaluator:
             "F1-score",
         ]
         dataframe = pd.DataFrame(rows, columns=columns)
-
-        _, ax = plt.subplots(figsize=(12, 0.6 * len(dataframe) + 1))
+        dataframe["Feature"] = dataframe["Feature"].replace(
+            {
+                "tf_idf": "TF-IDF",
+                "word2vec": "Word2Vec",
+            }
+        )
+        _, ax = plt.subplots(figsize=(12, 0.5 * len(dataframe)))
         ax.axis("off")
 
         table = ax.table(
@@ -377,7 +395,12 @@ class ModelEvaluator:
                 cell.set_text_props(ha="left")
 
         table.scale(1, 1.8)
-        plt.title("Model Performance with 95% Confidence Intervals", pad=20)
+        num_runs = len(next(iter(self.reports.values())))
+        plt.title(
+            f"Average Model Performance over {num_runs} runs\n"
+            "Mean ± 95% Confidence Interval",
+            y=0.95,
+        )
         plt.savefig(
             f"{path_to_results}/model_metrics_confidence_table.png",
             dpi=300,

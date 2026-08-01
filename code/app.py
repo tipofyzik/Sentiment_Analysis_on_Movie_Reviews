@@ -203,7 +203,7 @@ if __name__ == "__main__":
             tfidf_training_parameters = [
                 x_train_tfidf,
                 y_train,
-                model_random_state + iteration,
+                model_random_state + iteration * 100,
             ]
             models = {}
             if not logistic_regression_trained:
@@ -290,7 +290,7 @@ if __name__ == "__main__":
             word2vec_training_parameters = [
                 x_train_w2v,
                 y_train,
-                model_random_state + iteration,
+                model_random_state + iteration * 100,
             ]
             models = {}
             if not logistic_regression_trained:
@@ -338,6 +338,7 @@ if __name__ == "__main__":
                     model_name=model_name,
                     feature_type="word2vec",
                 )
+        print("Model training on Word2Vec features accomplished.")
 
     # Saving evaluation results
     # model_evaluator.save_final_reports(path_to_results)

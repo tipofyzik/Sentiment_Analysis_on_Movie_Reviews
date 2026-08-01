@@ -7,7 +7,6 @@ import numpy as np
 import joblib
 
 
-
 class FeatureExtractor:
     """
     A class responsible for extracting numerical features from textual data.
@@ -23,7 +22,7 @@ class FeatureExtractor:
         __tfidf_vectorizer (TfidfVectorizer): The fitted TF-IDF vectorizer used
             to transform text data into sparse feature matrices.
     """
-    
+
     def __init__(self):
         """
         Initializes the FeatureExtractor object.
@@ -32,9 +31,10 @@ class FeatureExtractor:
         it requires training data to learn the vocabulary and calculate weights.
         """
         pass
-    
-    def extract_tfidf_features(self, x_train: pd.Series, 
-                               x_test: pd.Series) -> tuple[spmatrix, spmatrix]:
+
+    def extract_tfidf_features(
+        self, x_train: pd.Series, x_test: pd.Series
+    ) -> tuple[spmatrix, spmatrix]:
         """
         Extracts TF-IDF features from training and testing text data.
 
@@ -48,19 +48,22 @@ class FeatureExtractor:
                     - TF-IDF sparse matrix for training data.
                     - TF-IDF sparse matrix for testing data.
         """
-        self.__tfidf_vectorizer = TfidfVectorizer(stop_words='english', 
-                                           max_features = 5000,
-                                           ngram_range=(1, 3),  #(1,2) gives almost the same result
-                                           min_df=5,
-                                           max_df=0.8,
-                                           token_pattern = r'\b\w[\w\'-]*\b')
-        
+        self.__tfidf_vectorizer = TfidfVectorizer(
+            stop_words="english",
+            max_features=5000,
+            ngram_range=(1, 3),  # (1,2) gives almost the same result
+            min_df=5,
+            max_df=0.8,
+            token_pattern=r"\b\w[\w\'-]*\b",
+        )
+
         x_train_tfidf = self.__tfidf_vectorizer.fit_transform(x_train)
-        x_test_tfidf = self.__tfidf_vectorizer.transform(x_test)    
+        x_test_tfidf = self.__tfidf_vectorizer.transform(x_test)
         return x_train_tfidf, x_test_tfidf
 
-    def extract_word2vec_features(self, word2vec_model: Word2Vec,
-                                  review: str) -> np.ndarray:
+    def extract_word2vec_features(
+        self, word2vec_model: Word2Vec, review: str
+    ) -> np.ndarray:
         """
         Extracts the most important n-grams from data via Bag-of-Words method
 
@@ -76,12 +79,14 @@ class FeatureExtractor:
                 the Word2Vec embeddings.
         """
         review_tokens = review.split()
-        vectors = [word2vec_model.wv[word] for word in review_tokens if word in word2vec_model.wv]
+        vectors = [
+            word2vec_model.wv[word]
+            for word in review_tokens
+            if word in word2vec_model.wv
+        ]
         if len(vectors) == 0:
             return np.zeros(word2vec_model.vector_size)
         return np.mean(vectors, axis=0)
-
-
 
     def save_tfidf_vectorizer(self, path_to_vectorizer: str) -> None:
         """
@@ -95,4 +100,3 @@ class FeatureExtractor:
                 Path where the TF-IDF vectorizer will be stored.
         """
         joblib.dump(self.__tfidf_vectorizer, path_to_vectorizer)
-
