@@ -93,8 +93,7 @@ However, an issue arised during the training process. Namely, Word2Vec features 
   <tr>
     <td><img src=<img width="2955" height="1762" alt="accuracy_comparison" src="https://github.com/user-attachments/assets/90400874-fe61-4b31-b3c0-6047769561fa" />
   /></td>
-    <td><img src=<img width="2955" height="1762" alt="f1-score_comparison" src="https://github.com/user-attachments/assets/9498479e-07b4-45b3-bb09-85791dbc3f7e" />
-  /></td>
+    <td><img src=<img width="2955" height="1762" alt="f1-score_comparison" src="https://github.com/user-attachments/assets/9498479e-07b4-45b3-bb09-85791dbc3f7e"/td>
   </tr>
   <tr>
     
