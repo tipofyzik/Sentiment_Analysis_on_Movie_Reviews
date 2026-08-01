@@ -119,7 +119,9 @@ However, an issue arised during the training process. Namely, Word2Vec features 
     </td>
   </tr>
 </table> 
-<img width="2850" height="1521" alt="model_metrics_confidence_table" src="https://github.com/user-attachments/assets/630c262d-5f81-4f0d-b98e-6ec1924a0576" />
+
+<img width="2850" height="1000" alt="model_metrics_confidence_table" src="https://github.com/user-attachments/assets/d68d2fff-a8c3-4ab4-9b29-2cd4820b2be7" />
+
 
 
 
