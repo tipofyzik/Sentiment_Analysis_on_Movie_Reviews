@@ -28,11 +28,17 @@ paths:
         word2vec: ./results/Word2Vec
 
 # ==========================================
+# Data analysis
+# ==========================================
+analysis:
+    data_is_analyzed: true
+
+# ==========================================
 # Data preprocessing
 # ==========================================
 preprocessing:
     # Set to true to reuse previously cleaned datasets.
-    data_is_preprocessed: false
+    data_is_preprocessed: true
 
     spacy:
         batch_size: 256
@@ -58,14 +64,17 @@ feature_extraction:
 # Model training
 # ==========================================
 training:
-    test_size: 0.3
-    training_number: 1
+    test_size: 0.8
+    training_number: 10
     random_state: 0
 
     # false -> train model
     # true  -> model has already been trained
     models:
-        logistic_regression: false
-        naive_bayes: false
-        random_forest: false
-        linear_svc: false
+        logistic_regression_trained: false
+        naive_bayes_trained: false
+        random_forest_trained: false
+        linear_svc_trained: false
+
+evaluation:
+    enabled: true
