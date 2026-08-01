@@ -103,19 +103,23 @@ However, an issue arised during the training process. Namely, Word2Vec features 
 ### Accuracy change through 10 runs:  
 <table>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/fba68c16-f924-4333-a7b5-294752d53de8"/></td>
+    <td width="50%">
+      <img width="2955" height="1762" alt="accuracy_comparison" src="https://github.com/user-attachments/assets/ba160745-cd18-413e-9d51-2ad2ec286c89" />
+    </td>
+    <td width="50%">
+      <img width="2955" height="1762" alt="f1-score_comparison" src="https://github.com/user-attachments/assets/8169e476-02ad-4333-89e6-4d7e67b59fe0" />
+    </td>
   </tr>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/b577f8a6-921b-4088-ac71-942d5b87de58"/></td>
+    <td width="50%">
+      <img width="2955" height="1762" alt="precision_comparison" src="https://github.com/user-attachments/assets/43f4ef8a-3bdb-4716-bd18-f94e8d476227" />
+    </td>
+    <td width="50%">
+      <img width="2955" height="1762" alt="recall_comparison" src="https://github.com/user-attachments/assets/b1e9bd2d-8311-4e10-bff0-8774c3cc896d" />
+    </td>
   </tr>
-</table>  
+</table> 
+<img width="2850" height="1521" alt="model_metrics_confidence_table" src="https://github.com/user-attachments/assets/630c262d-5f81-4f0d-b98e-6ec1924a0576" />
 
 
-
-<table>
-  <tr>
-  </tr>
-  <tr>
-  </tr>
-</table>  
 
