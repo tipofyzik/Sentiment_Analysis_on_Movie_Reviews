@@ -359,14 +359,14 @@ class ModelEvaluator:
 
         columns = [
             "Model",
-            "Feature",
+            "Features",
             "Accuracy",
             "Precision",
             "Recall",
             "F1-score",
         ]
         dataframe = pd.DataFrame(rows, columns=columns)
-        dataframe["Feature"] = dataframe["Feature"].replace(
+        dataframe["Features"] = dataframe["Features"].replace(
             {
                 "tf_idf": "TF-IDF",
                 "word2vec": "Word2Vec",
