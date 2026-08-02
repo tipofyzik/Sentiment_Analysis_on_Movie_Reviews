@@ -1,6 +1,4 @@
-## 1. Task formulation
-## 1. Task Overview
-
+## 1. Task overview
 This project focuses on **binary sentiment analysis** of movie reviews. The objective is to train and evaluate machine learning models capable of predicting the overall sentiment of a user-provided movie review. Each review is classified into one of two categories:
 - **Positive**
 - **Negative**
@@ -16,42 +14,13 @@ The merged dataset contains:
 | Negative  |            96,222 |
 
 ### Datasets
-For convenience, the processed datasets used in this project are [available on Google Drive](https://drive.google.com/drive/folders/1ACDrihk3dvMMEIhsVKuf3jsO6Rv7DDbP?usp=drive_link). Simply download them and place them into the project's **`code`** directory before running the application. The [Google Drive\ folder also contains the generated evaluation artifacts, including classification reports and confusion matrices:  
-
+For convenience, the processed datasets used in this project are [available on Google Drive](https://drive.google.com/drive/folders/1ACDrihk3dvMMEIhsVKuf3jsO6Rv7DDbP?usp=drive_link). Simply download them and place them into the project's **`code`** directory before running the application. The Google Drive folder also contains the generated evaluation artifacts, including classification reports and confusion matrices.
 
 ### Original Data Sources
-
 The project is based on the following publicly available datasets:
-
-1. **Stanford's Large Movie Review Dataset**
-   https://ai.stanford.edu/~amaas/data/sentiment/
-
-   For convenience, this project uses the equivalent CSV version (IMDb Dataset of 50K Movie Reviews) published on Kaggle:
-   https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews
-
-2. **SAR14 Dataset**
-   https://github.com/daiquocnguyen/SAR14
-
-
-
-
-
-
-There are movie reviews collected from the internet. Basically, there are 2 datasets: stanford's Large Movie Review Dataset and SAR14 dataset. The goal is to train and evaluate the model(s) that will analyze the custom movie review and determine its overall sentiment. An outcome of a model should be either positive or negative, i.e., this is a binary classification task.  
-
-I uploaded datasets to google drive, so they can be simply put into the **code** folder for their processing. You can also access confusion matrices and classification reports for various cases through this link:  
-https://drive.google.com/drive/folders/1ACDrihk3dvMMEIhsVKuf3jsO6Rv7DDbP?usp=drive_link  
-
-
-
-The references to the original datasets:  
-1. Stanford's Large Movie Review Dataset: https://ai.stanford.edu/~amaas/data/sentiment/  
-**However, for convenience, I used its .csv version (IMBD dataset) published on kaggle**: https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews   
-2. SAR14 dataset: https://github.com/daiquocnguyen/SAR14?tab=readme-ov-file  
-
-Overall, there are two types (classes) of review with the following number of samples:  
-1. positive: 192,378 reviews  
-2. negative: 96,222 reviews  
+1. [**Stanford's Large Movie Review Dataset**](https://ai.stanford.edu/~amaas/data/sentiment/)
+   For convenience, this project uses the equivalent CSV version (IMDb Dataset of 50K Movie Reviews) [published on Kaggle](https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews)
+3. [**SAR14 Dataset**](https://github.com/daiquocnguyen/SAR14)
 
 
 ## 2. Program installation
