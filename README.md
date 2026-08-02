@@ -43,19 +43,20 @@ The project consists of three main scripts that cover the complete machine learn
 After the models have been trained, PredictCustomReviewApp.py can be executed. This script launches a graphical user interface that allows users to enter a custom movie review and obtain its predicted sentiment (positive or negative) using one of the trained models.  
 
 ## 4. Project structure
-.
-├── app.py                      # Main pipeline  
-├── config.yml                  # Project configuration  
-├── RawDataAnalyzer.py          # Exploration of the initial dataset   
-├── DataPreprocessor.py         # Text preprocessing  
-├── FeatureExtractor.py         # TF-IDF and Word2Vec extraction  
-├── NewModelTrainer.py          # Model training  
-├── ModelEvaluator.py           # Evaluation and visualization  
-├── PredictCustomReviewApp.py   # GUI for custom review prediction   
-├── SAR14ConverterToCSV.py      # Dataset conversion  
-├── datasets/  
-├── models/  
-├── results/  
+```text
+├── app.py                       # Main pipeline
+├── config.yml                   # Project configuration
+├── RawDataAnalyzer.py           # Exploration of the initial dataset
+├── DataPreprocessor.py          # Text preprocessing
+├── FeatureExtractor.py          # TF-IDF and Word2Vec feature extraction
+├── NewModelTrainer.py           # Supervised model training
+├── ModelEvaluator.py            # Model evaluation and visualization
+├── PredictCustomReviewApp.py    # GUI for custom review prediction
+├── SAR14ConverterToCSV.py       # SAR14 dataset conversion
+├── datasets/                    # Input datasets
+├── models/                      # Saved vectorizers and trained models
+└── results/                     # Evaluation reports and plots
+```
 
 ### Models
 Logistic Regression, Naive Bayes, Random Forest, and Linear SVM  
