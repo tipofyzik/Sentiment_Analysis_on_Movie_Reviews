@@ -22,43 +22,43 @@ The project is based on the following publicly available datasets:
    For convenience, this project uses the equivalent CSV version (IMDb Dataset of 50K Movie Reviews) [**published on Kaggle**](https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews)
 3. [**SAR14 Dataset**](https://github.com/daiquocnguyen/SAR14)
 
-
 ## 2. Program installation
 ### Requirements 
 You need to intall Python with the version 3.11.3 and higher. All required modules to install you can find in the **"requirements.txt"** file. Download the folder "code" from github and the folder "datasets" from google drive. The latter folder put into the first one.  
 
-
-
 ## 3. How to use
-There are three key files for the program to work: **SAR14ConverterToCSV.py**, **config.json**, and **app.py**.  
-**SAR14ConverterToCSV.py** — This file should be run before any other ones. It converts the original SAR14 dataset from .txt format to .csv one, which is more convenient to process by Python.  
-**config.json** — This file contains all crucial parameters for the code to work. See **"4.2. Config file"** section to look at what parameters are responsible for.  
-**app.py** — This file rins the entire program which, in turn, cleans data, encodes it, trains various supervised learning models and evaluates their quality.  
+The project consists of three main scripts that cover the complete machine learning pipeline, from data preparation to model training and evaluation.
+- **SAR14ConverterToCSV.py**: Run this script before executing the main application. The original SAR14 dataset is distributed in .txt format, while the project expects a .csv file for efficient processing. This script converts the original dataset into the required format.
+- **config.yml**: This configuration file contains all parameters required by the project, including dataset locations, preprocessing options, feature extraction settings, model training parameters, and evaluation options. A detailed description of each parameter is provided in Section 4.2 – Configuration File.
+- **app.py**: This is the project's main entry point. It executes the complete machine learning pipeline:
+1. loads the datasets;
+2. performs optional dataset analysis;
+3. preprocesses the text data;
+4. extracts features using TF-IDF and/or Word2Vec;
+5. trains the selected supervised learning models;
+6. evaluates model performance;
+7. generates classification reports, confusion matrices, comparison plots, and summary tables.  
+After the models have been trained, PredictCustomReviewApp.py can be executed. This script launches a graphical user interface that allows users to enter a custom movie review and obtain its predicted sentiment (positive or negative) using one of the trained models.  
 
-Additionally, there is a file **PredictCustomReviewApp.py**, which might be run once all models are trained. It creates a window where the user can enter any custom review and get its sentiment as an outcome.  
+## 4. Project structure
+.
+├── app.py                      # Main pipeline
+├── config.yml                  # Project configuration
+├── RawDataAnalyzer.py          # Exploration of the initial dataset 
+├── DataPreprocessor.py         # Text preprocessing
+├── FeatureExtractor.py         # TF-IDF and Word2Vec extraction
+├── NewModelTrainer.py          # Model training
+├── ModelEvaluator.py           # Evaluation and visualization
+├── PredictCustomReviewApp.py   # GUI for custom review prediction
+├── SAR14ConverterToCSV.py      # Dataset conversion
+├── datasets/
+├── models/
+├── results/
 
-## 4. Implementation
-### 4.1. Classes
-There are 4 classes ensure the program works:  
-**· RawDataAnalyzer** analyzes the raw dataset to give a hint where the preprocess should start first. It looks for null values and prints the size of the initial datasets and their column names.  
-**· DataPreprocessor** cleans the data from stop words and punctuation. Additionally, makes all the text lowercase and lemmatizes it.  
-**· FeatureExtractor** extracts textual features from a review dataset. It utilizes two extraction algorithms: TF-IDF and Word2Vec.  
-**· ModelTrainer** trains various models to determine sentiment of the give review. Namely, there are four models: Logistic Regression, Linear SVM, Naive Bayes, and Random Forest.  
+### Models
+Logistic Regression, Naive Bayes, Random Forest, and Linear SVM  
 
-**· PredictCustomReviewApp** is a separate class which is a GUI application for the sentiment prediction of a custom movie review. It can be run individually after models training.  
-
-### 4.2. Config file
-Config file contains settings for different stages of data analysis and training. For further information, read the **config_explanation.txt**. 
-### 4.3. Launch file
-The **"app.py"** file analyzes data, preprocesses it, extracts features and trains models on these features. Let's go through a step-by-step explanation of what happens there. The program:  
-1. Imports all the custom classes and reads parameters from **"config.json"**.  
-2. Reads the original dataset and outputs basic information about it to the console.  
-3. Preprocesses it by removing noise (punctuation, stopwords, lemmatize data). Preprocessed texts are saved to .csv file to avoid repetiotion of preprocessing.  
-4. Extracts features from reviews. There are two feature extraction algorithms: TF-IDF and Word2Vec.   
-5. Teaches four models on two types of extracted features (Logistic Regression, Naive Bayes, Random Forest, and Linear SVM).  
-  
-
-### 4.4. Implementation specifics
+### 4.1. Implementation specifics
 **Data preprocessing:**  
 Data preprocessing is accomplished in two steps:  
 1. Manual cleaning from the noise. Text is lowercased and cleaned from the html tags, numbers, punctuation, and stop words.  
