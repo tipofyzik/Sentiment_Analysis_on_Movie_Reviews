@@ -44,18 +44,18 @@ After the models have been trained, PredictCustomReviewApp.py can be executed. T
 
 ## 4. Project structure
 .
-├── app.py                      # Main pipeline
-├── config.yml                  # Project configuration
-├── RawDataAnalyzer.py          # Exploration of the initial dataset 
-├── DataPreprocessor.py         # Text preprocessing
-├── FeatureExtractor.py         # TF-IDF and Word2Vec extraction
-├── NewModelTrainer.py          # Model training
-├── ModelEvaluator.py           # Evaluation and visualization
-├── PredictCustomReviewApp.py   # GUI for custom review prediction
-├── SAR14ConverterToCSV.py      # Dataset conversion
-├── datasets/
-├── models/
-├── results/
+├── app.py                      # Main pipeline  
+├── config.yml                  # Project configuration  
+├── RawDataAnalyzer.py          # Exploration of the initial dataset   
+├── DataPreprocessor.py         # Text preprocessing  
+├── FeatureExtractor.py         # TF-IDF and Word2Vec extraction  
+├── NewModelTrainer.py          # Model training  
+├── ModelEvaluator.py           # Evaluation and visualization  
+├── PredictCustomReviewApp.py   # GUI for custom review prediction   
+├── SAR14ConverterToCSV.py      # Dataset conversion  
+├── datasets/  
+├── models/  
+├── results/  
 
 ### Models
 Logistic Regression, Naive Bayes, Random Forest, and Linear SVM  
