@@ -18,8 +18,8 @@ For convenience, the processed datasets used in this project are [available on G
 
 ### Original Data Sources
 The project is based on the following publicly available datasets:
-1. [**Stanford's Large Movie Review Dataset**](https://ai.stanford.edu/~amaas/data/sentiment/)
-   For convenience, this project uses the equivalent CSV version (IMDb Dataset of 50K Movie Reviews) [published on Kaggle](https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews)
+1. [**Stanford's Large Movie Review Dataset**](https://ai.stanford.edu/~amaas/data/sentiment/)  
+   For convenience, this project uses the equivalent CSV version (IMDb Dataset of 50K Movie Reviews) [**published on Kaggle**](https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews)
 3. [**SAR14 Dataset**](https://github.com/daiquocnguyen/SAR14)
 
 
