@@ -1,5 +1,9 @@
-## 1. Task overview
-This project focuses on **binary sentiment analysis** of movie reviews. The objective is to train and evaluate machine learning models capable of predicting the overall sentiment of a user-provided movie review. Each review is classified into one of two categories:
+# Movie Review Sentiment Analysis
+
+A Natural Language Processing (NLP) project for binary sentiment classification of movie reviews using multiple supervised machine learning models and feature extraction techniques.
+
+## 1 Task overview
+This project focuses on **binary sentiment analysis** of movie reviews. The goal is to train and evaluate machine learning models capable of predicting the overall sentiment of a user-provided movie review. Each review is classified into one of two categories:
 - **Positive**
 - **Negative**
 
@@ -13,20 +17,29 @@ The merged dataset contains:
 | Positive  |           192,378 |
 | Negative  |            96,222 |
 
-### Datasets
+The project investigates the influence of different text representations and machine learning algorithms on sentiment classification performance. Two feature extraction techniques (TF-IDF and Word2Vec) are compared across several supervised learning models.  
+The final system is also capable of predicting the sentiment of arbitrary user-provided movie reviews through a graphical interface.  
+
+## Datasets
 For convenience, the processed datasets used in this project are [available on Google Drive](https://drive.google.com/drive/folders/1ACDrihk3dvMMEIhsVKuf3jsO6Rv7DDbP?usp=drive_link). Simply download them and place them into the project's **`code`** directory before running the application. The Google Drive folder also contains the generated evaluation artifacts, including classification reports and confusion matrices.
 
-### Original Data Sources
+## Original Data Sources
 The project is based on the following publicly available datasets:
 1. [**Stanford's Large Movie Review Dataset**](https://ai.stanford.edu/~amaas/data/sentiment/)  
    For convenience, this project uses the equivalent CSV version (IMDb Dataset of 50K Movie Reviews) [**published on Kaggle**](https://www.kaggle.com/datasets/lakshmi25npathi/imdb-dataset-of-50k-movie-reviews)
 3. [**SAR14 Dataset**](https://github.com/daiquocnguyen/SAR14)
 
-## 2. Program installation
-### Requirements 
-You need to intall Python with the version 3.11.3 and higher. All required modules to install you can find in the **"requirements.txt"** file. Download the folder "code" from github and the folder "datasets" from google drive. The latter folder put into the first one.  
+## 2 Program installation
+## Requirements 
+**Language**: Python 3.11.3+  
+**Python Modules** can be found in the **"requirements.txt"** file. 
 
-## 3. How to use
+Install all required dependencies:  
+```bash
+pip install -r requirements.txt
+```
+
+## 3 How to use
 The project consists of three main scripts that cover the complete machine learning pipeline, from data preparation to model training and evaluation.
 - **SAR14ConverterToCSV.py**: Run this script before executing the main application. The original SAR14 dataset is distributed in .txt format, while the project expects a .csv file for efficient processing. This script converts the original dataset into the required format.
 - **config.yml**: This configuration file contains all parameters required by the project, including dataset locations, preprocessing options, feature extraction settings, model training parameters, and evaluation options. A detailed description of each parameter is provided in Section 4.2 – Configuration File.
@@ -39,10 +52,9 @@ The project consists of three main scripts that cover the complete machine learn
 6. evaluates model performance;
 7. generates classification reports, confusion matrices, comparison plots, and summary tables.
 
-
 After the models have been trained, PredictCustomReviewApp.py can be executed. This script launches a graphical user interface that allows users to enter a custom movie review and obtain its predicted sentiment (positive or negative) using one of the trained models.  
 
-## 4. Project structure
+## 4 Project structure
 ```text
 ├── app.py                       # Main pipeline
 ├── config.yml                   # Project configuration
@@ -58,44 +70,50 @@ After the models have been trained, PredictCustomReviewApp.py can be executed. T
 └── results/                     # Evaluation reports and plots
 ```
 
-### Models
-Logistic Regression, Naive Bayes, Random Forest, and Linear SVM  
+# 5 Implementation
+## 5.1 Data Preprocessing
+Text preprocessing is performed in two stages.  
+1. lightweight manual preprocessing removes:
+- HTML tags;
+- punctuation;
+- digits;
+- stop words;
+- extra whitespace.
+All text is converted to lowercase before further processing.
+2. Reviews are lemmatized using the **spaCy** English language model.
 
-### 4.1. Implementation specifics
-**Data preprocessing:**  
-Data preprocessing is accomplished in two steps:  
-1. Manual cleaning from the noise. Text is lowercased and cleaned from the html tags, numbers, punctuation, and stop words.  
-2. Lemmatiztion via spacy nlp model.  
-This approach is appriximately **two times faster** than cleaning data via the spacy nlp model only, while the quality of cleaning process is almost preserved.  
+This hybrid approach is approximately **twice as fast** as performing the entire preprocessing pipeline solely through spaCy while producing nearly identical preprocessing quality.  
+To improve stop-word removal, the default spaCy stop-word list is extended with additional custom tokens originating from split English contractions (e.g. *wouldn't → wouldn + t*).
 
-To provide an accurate remove of stop words the set of custom stop words is added. The choice of words can be explained by the following logic. The first thing that takes place is cleaning from the punctuation, therefore contractions, such as wouldn't, he'll, etc. are divided into two parts which are not read as stop words by the original static set from the spacy library. Thus, we expand the original list by possible beginnings and endings (see **self.__custom_stop_words** variable).  
 
-```python
-  def __init__(self, spacy_batch_size: int, spacy_n_process: int):
-      """
-      Initializes the DataPreprocessor with the provided batch size for lemmatization 
-      and the number of processes for spacy model.
+## 5.2 Feature Extraction
+Two feature extraction techniques are implemented and compared: TF-IDF and Word2Vec
 
-      Args:
-          spacy_batch_size (int): The batch size for faster lemmatization.
-          spacy_n_process (int): The number of processes for spacy model.
-      """
-      self.__nlp = spacy.load("en_core_web_sm", disable=["parser", "ner", "textcat"])
-      self.__stop_words = set(spacy.load("en_core_web_sm").Defaults.stop_words)  
-      self.__custom_stop_words = {"t", "ll", "s", "d", 
-                                  "couldn", "wouldn", "mightn", "mayn", 
-                                  "don", "doesn"}
-      self.__stop_words.update(self.__custom_stop_words)
-      ... # The remained part of the function
-```
+## 5.3 Machine Learning Models
+Four supervised learning algorithms are evaluated:
+- Logistic Regression
+- Linear SVM
+- Random Forest
+- Naive Bayes
 
-**Data training:**  
-There are four trained models: Linear Regression, Linear SVM, Random Forest, and Naive Bayes. Additionally, there are two algorithms utilized to extract features: TF-IDF and Word2Vec. This is done to train model on different features and compare these models in their accuracy and generalization performance.  
+An important implementation detail concerns the Naive Bayes classifier. Multinomial Naive Bayes assumes non-negative feature values, making it appropriate for TF-IDF representations. Word2Vec embeddings, however, naturally contain both positive and negative values. Therefore, Gaussian Naive Bayes is used instead when training on Word2Vec features. This allows fair comparisons while respecting the assumptions of each probabilistic model.
 
-However, an issue arised during the training process. Namely, Word2Vec features may contain negative values, while TF-IDF features can not. It affects the training of the Naive Bayes model. As a result, to process TF-IDF features Multinomial Naive Bayes is used, while for Word2Vec features Gaussian Naive Bayes is utilized.  
+## 5.4 Evaluation Methodology
+Model performance is assessed using:
+- Accuracy
+- Precision
+- Recall
+- F1-score
 
-## 5. Results of the work
-### Models' performance 10 runs. split 20/80
+Each experiment is repeated multiple times using different random seeds. Instead of reporting the metrics from a single train/test split, the presented results correspond to the **average performance across all experimental runs**. Additionally, **95% confidence intervals** are calculated for every evaluation metric to estimate the variability of the obtained results.  
+The evaluation pipeline automatically generates:
+- averaged classification reports;
+- averaged confusion matrices;
+- metric comparison plots;
+- confidence interval summary tables.
+
+# 6. Results
+## 6.1 Average Performance over 10 Runs (20/80 train/test split
 <table>
   <tr>
     <td width="50%">
@@ -118,8 +136,7 @@ However, an issue arised during the training process. Namely, Word2Vec features 
 <img width="2850" height="1056" alt="model_metrics_confidence_table" src="https://github.com/user-attachments/assets/ba2b9e3c-da16-4646-9297-b7143f07ecd8" />
 
 
-
-### Models' performance 10 runs. split 70/30
+## 6.2 Models' performance 10 runs. split 70/30
 <table>
   <tr>
     <td width="50%">
@@ -141,7 +158,7 @@ However, an issue arised during the training process. Namely, Word2Vec features 
 
 <img width="2850" height="1056" alt="model_metrics_confidence_table" src="https://github.com/user-attachments/assets/a2dfdf8b-f3cd-4dba-8a38-88b1667ed5b1" />
 
-
+# 7. Conclusions
 
 
 
