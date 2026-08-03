@@ -113,7 +113,7 @@ The evaluation pipeline automatically generates:
 - confidence interval summary tables.
 
 # 6. Results
-## 6.1 Average Performance over 10 Runs (20/80 train/test split
+## 6.1 Average Performance over 10 Runs (20/80 train/test split)
 <table>
   <tr>
     <td width="50%">
@@ -136,7 +136,7 @@ The evaluation pipeline automatically generates:
 <img width="2850" height="1056" alt="model_metrics_confidence_table" src="https://github.com/user-attachments/assets/ba2b9e3c-da16-4646-9297-b7143f07ecd8" />
 
 
-## 6.2 Models' performance 10 runs. split 70/30
+## 6.2 Average Performance over 10 Runs (70/30 train/test split)
 <table>
   <tr>
     <td width="50%">
