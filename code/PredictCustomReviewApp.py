@@ -11,9 +11,7 @@ import numpy as np
 import joblib
 import yaml
 
-
-
-with open('config.yml', 'r') as f:
+with open("config.yml", "r") as f:
     config = yaml.safe_load(f)
 
 spacy_batch_size = config["preprocessing"]["spacy"]["batch_size"]
@@ -24,19 +22,28 @@ path_to_w2v_model = config["paths"]["models"]["word2vec"]
 path_to_tfidf_result_models = config["paths"]["result_models"]["tfidf"]
 path_to_w2v_result_models = config["paths"]["result_models"]["word2vec"]
 
-data_preprocessor = DataPreprocessor(spacy_batch_size = spacy_batch_size, spacy_n_process = spacy_n_process)
+data_preprocessor = DataPreprocessor(
+    spacy_batch_size=spacy_batch_size, spacy_n_process=spacy_n_process
+)
 tfidf_vectorizer = joblib.load(path_to_tfidf_vectorizer)
 
-tfidf_logistic_regression_model = joblib.load(f"{path_to_tfidf_result_models}/logistic_regression.pkl")
+tfidf_logistic_regression_model = joblib.load(
+    f"{path_to_tfidf_result_models}/logistic_regression.pkl"
+)
 tfidf_naive_bayes_model = joblib.load(f"{path_to_tfidf_result_models}/naive_bayes.pkl")
-tfidf_random_forest_model = joblib.load(f"{path_to_tfidf_result_models}/random_forest.pkl")
+tfidf_random_forest_model = joblib.load(
+    f"{path_to_tfidf_result_models}/random_forest.pkl"
+)
 tfidf_linear_svc_model = joblib.load(f"{path_to_tfidf_result_models}/linear_svc.pkl")
 
-w2v_logistic_regression_model = joblib.load(f"{path_to_w2v_result_models}/logistic_regression.pkl")
-w2v_gauss_naive_bayes_model = joblib.load(f"{path_to_w2v_result_models}/gauss_naive_bayes.pkl")
+w2v_logistic_regression_model = joblib.load(
+    f"{path_to_w2v_result_models}/logistic_regression.pkl"
+)
+w2v_gauss_naive_bayes_model = joblib.load(
+    f"{path_to_w2v_result_models}/gauss_naive_bayes.pkl"
+)
 w2v_random_forest_model = joblib.load(f"{path_to_w2v_result_models}/random_forest.pkl")
 w2v_linear_svc_model = joblib.load(f"{path_to_w2v_result_models}/linear_svc.pkl")
-
 
 
 class PredictCustomReviewApp:
@@ -68,7 +75,7 @@ class PredictCustomReviewApp:
         self.vectorizers = {}
 
         self.create_widgets()
-        
+
         self.review_entry.bind("<Control-a>", self.select_all)
         self.review_entry.bind("<Control-A>", self.select_all)
 
@@ -91,15 +98,22 @@ class PredictCustomReviewApp:
         run button, and result display.
         """
         tk.Label(self.root, text="Select Model:").pack(pady=(10, 0))
-        self.model_dropdown = ttk.Combobox(self.root, textvariable=self.model_var, values=[
-            "Logistic Regression", "Linear SVM", "Random Forest", "Naive Bayes"
-        ])
+        self.model_dropdown = ttk.Combobox(
+            self.root,
+            textvariable=self.model_var,
+            values=[
+                "Logistic Regression",
+                "Linear SVM",
+                "Random Forest",
+                "Naive Bayes",
+            ],
+        )
         self.model_dropdown.pack()
 
         tk.Label(self.root, text="Select Feature Method:").pack(pady=(10, 0))
-        self.feature_dropdown = ttk.Combobox(self.root, textvariable=self.feature_var, values=[
-            "TF-IDF", "Word2Vec"
-        ])
+        self.feature_dropdown = ttk.Combobox(
+            self.root, textvariable=self.feature_var, values=["TF-IDF", "Word2Vec"]
+        )
         self.feature_dropdown.pack()
 
         tk.Label(self.root, text="Write a Review:").pack(pady=(10, 0))
@@ -111,8 +125,6 @@ class PredictCustomReviewApp:
 
         self.result_label = tk.Label(self.root, text="", font=("Helvetica", 14))
         self.result_label.pack(pady=10)
-
-
 
     def run_prediction(self) -> None:
         """
@@ -137,10 +149,12 @@ class PredictCustomReviewApp:
         if features is None:
             self.result_label.config(text="Error in feature extraction", fg="red")
             return
-        
+
         prediction = model.predict(features)[0]
         prediction = "negative" if prediction == 0 else "positive"
-        self.result_label.config(text=f"Sentiment: {prediction.capitalize()}", fg="blue")
+        self.result_label.config(
+            text=f"Sentiment: {prediction.capitalize()}", fg="blue"
+        )
 
     def load_model(self, model_name, feature_method) -> Any:
         """
@@ -154,20 +168,22 @@ class PredictCustomReviewApp:
             sklearn.base.BaseEstimator: The loaded machine learning model.
         """
         model_files = {
-            "Logistic Regression": "logistic_regression.pkl", 
-            "Naive Bayes" : "naive_bayes.pkl",
-            "Gaussian Naive Bayes" : "gauss_naive_bayes.pkl",
-            "Random Forest": "random_forest.pkl", 
-            "Linear SVM": "linear_svc.pkl"
-            }
+            "Logistic Regression": "logistic_regression.pkl",
+            "Naive Bayes": "naive_bayes.pkl",
+            "Gaussian Naive Bayes": "gauss_naive_bayes.pkl",
+            "Random Forest": "random_forest.pkl",
+            "Linear SVM": "linear_svc.pkl",
+        }
         feature_method_paths = {
-            "TF-IDF" : path_to_tfidf_result_models, 
-            "Word2Vec" : path_to_w2v_result_models
+            "TF-IDF": path_to_tfidf_result_models,
+            "Word2Vec": path_to_w2v_result_models,
         }
         if feature_method == "Word2Vec" and model_name == "Naive Bayes":
             model_name = "Gaussian Naive Bayes"
 
-        prediction_model = joblib.load(f"{feature_method_paths[feature_method]}/{model_files[model_name]}")
+        prediction_model = joblib.load(
+            f"{feature_method_paths[feature_method]}/{model_files[model_name]}"
+        )
         return prediction_model
 
     def extract_features(self, text, method):
@@ -215,7 +231,9 @@ class PredictCustomReviewApp:
         features = self.extract_word2vec_features(w2v_model, review)
         return features.reshape(1, -1)
 
-    def extract_word2vec_features(self, word2vec_model: Word2Vec, review: str) -> np.ndarray:
+    def extract_word2vec_features(
+        self, word2vec_model: Word2Vec, review: str
+    ) -> np.ndarray:
         """
         Computes the averaged Word2Vec vector from the tokens of a single review.
 
@@ -227,11 +245,14 @@ class PredictCustomReviewApp:
             np.ndarray: The averaged Word2Vec feature vector.
         """
         review_tokens = review[0].split()
-        vectors = [word2vec_model.wv[word] for word in review_tokens if word in word2vec_model.wv]
+        vectors = [
+            word2vec_model.wv[word]
+            for word in review_tokens
+            if word in word2vec_model.wv
+        ]
         if len(vectors) == 0:
             return np.zeros(word2vec_model.vector_size)
         return np.mean(vectors, axis=0)
-
 
 
 if __name__ == "__main__":

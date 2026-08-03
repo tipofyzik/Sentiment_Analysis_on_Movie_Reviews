@@ -12,6 +12,7 @@ import pandas as pd
 import numpy as np
 
 from collections import defaultdict
+from scipy.sparse import csr_matrix
 from typing import Any
 import joblib
 import os
@@ -24,34 +25,46 @@ class ModelEvaluator:
     This class is responsible for:
     - generating predictions;
     - calculating evaluation metrics;
-    - saving reports;
+    - saving evaluation reports;
     - plotting confusion matrices;
-    - comparing feature extraction methods.
+    - comparing feature extraction methods;
+    - calculating confidence intervals.
 
     Model training is handled by ModelTrainer.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initializes ModelEvaluator.
+
+        Creates containers for evaluation reports
+        and confusion matrices.
         """
         self.reports = defaultdict(list)
         self.confusion_matrices = defaultdict(list)
 
     def evaluate_model(
-        self, model, x_test, y_test, model_name: str, feature_type: str
+        self,
+        model: Any,
+        x_test: Any,
+        y_test: pd.Series,
+        model_name: str,
+        feature_type: str,
     ) -> None:
         """
-        Evaluates a trained model.
+        Evaluates a trained model and stores its metrics.
 
         Args:
-            model: Trained sklearn model.
-            x_test: Test features.
-            y_test: True labels.
-            model_name (str): Name of the model.
-            feature_type (str): Feature extraction method.
-                Example:
-                "tf-idf", "word2vec"
+            model (Any):
+                Trained machine learning model.
+            x_test (Any):
+                Test feature matrix.
+            y_test (pd.Series):
+                True labels.
+            model_name (str):
+                Model name.
+            feature_type (str):
+                Feature extraction method.
         """
         predictions = model.predict(x_test)
         report = classification_report(y_test, predictions, output_dict=True)
@@ -66,38 +79,52 @@ class ModelEvaluator:
         self.confusion_matrices[key].append(confusion_matrix(y_test, predictions))
 
     def load_and_evaluate(
-        self, model_path: str, x_test, y_test, model_name: str, feature_type: str
+        self,
+        model_path: str,
+        x_test: csr_matrix,
+        y_test: pd.Series,
+        model_name: str,
+        feature_type: str,
     ) -> None:
         """
-        Loads saved model and evaluates it.
+        Loads a saved model and evaluates it.
 
         Args:
             model_path (str):
-                Path to .pkl model.
-
-            x_test:
-                Test features.
-
-            y_test:
+                Path to the serialized model.
+            x_test (csr_matrix):
+                Test feature matrix.
+            y_test (pd.Series):
                 True labels.
-
             model_name (str):
                 Model name.
-
             feature_type (str):
-                Feature type.
+                Feature extraction method.
         """
         model = joblib.load(model_path)
         self.evaluate_model(model, x_test, y_test, model_name, feature_type)
 
     def calculate_metric_statistics(
         self,
-        reports: list,
+        reports: list[dict[str, Any]],
         cls: str,
         metric: str,
     ) -> tuple[float | None, float | None]:
         """
-        Calculates mean and standard deviation for a metric.
+        Calculates the mean and standard deviation
+        for a specified metric.
+
+        Args:
+            reports (list[dict[str, Any]]):
+                Classification reports.
+            cls (str):
+                Target class.
+            metric (str):
+                Metric name.
+
+        Returns:
+            tuple[float | None, float | None]:
+                Mean and standard deviation.
         """
 
         values = [
@@ -113,12 +140,24 @@ class ModelEvaluator:
 
     def create_report_row(
         self,
-        reports: list,
+        reports: list[dict[str, Any]],
         cls: str,
         metrics: list[str],
     ) -> dict[str, Any]:
         """
-        Creates one row of averaged classification report.
+        Creates one averaged classification report row.
+
+        Args:
+            reports (list[dict[str, Any]]):
+                Classification reports.
+            cls (str):
+                Target class.
+            metrics (list[str]):
+                Metrics to include.
+
+        Returns:
+            dict[str, Any]:
+                Report row.
         """
         row: dict[str, Any] = {"class": cls}
 
@@ -135,12 +174,17 @@ class ModelEvaluator:
 
         return row
 
-    def save_final_reports(self, path_to_results: str) -> None:
+    def save_final_reports(
+        self,
+        path_to_results: str,
+    ) -> None:
         """
-        Saves averaged classification reports.
+        Saves averaged classification reports
+        as CSV files.
 
-        Creates one CSV file per:
-        model + feature type combination.
+        Args:
+            path_to_results (str):
+                Directory for saving reports.
         """
 
         os.makedirs(path_to_results, exist_ok=True)
@@ -191,9 +235,16 @@ class ModelEvaluator:
                 index=False,
             )
 
-    def save_confusion_matrices(self, path_to_results: str) -> None:
+    def save_confusion_matrices(
+        self,
+        path_to_results: str,
+    ) -> None:
         """
         Saves averaged confusion matrices.
+
+        Args:
+            path_to_results (str):
+                Directory for saving figures.
         """
         os.makedirs(path_to_results, exist_ok=True)
 
@@ -222,28 +273,46 @@ class ModelEvaluator:
             )
             plt.close()
 
-    def calculate_ci(self, values):
+    def calculate_ci(
+        self,
+        values: list[float] | np.ndarray,
+    ) -> tuple[float, float, float]:
         """
-        Calculates 95% confidence interval.
+        Calculates the mean, standard deviation,
+        and 95% confidence interval.
+
+        Args:
+            values (list[float] | np.ndarray):
+                Metric values.
+
+        Returns:
+            tuple[float, float, float]:
+                Mean, standard deviation,
+                and confidence interval.
         """
         values = np.array(values)
-        mean = np.mean(values)
+        mean = float(np.mean(values))
 
         if len(values) < 2:
             return mean, 0.0, 0.0
 
-        std = np.std(values, ddof=1)
+        std = float(np.std(values, ddof=1))
         n = len(values)
         ci95 = 1.96 * (std / np.sqrt(n))
 
         return mean, std, ci95
 
-    def save_metric_comparison_plots(self, path_to_results: str) -> None:
+    def save_metric_comparison_plots(
+        self,
+        path_to_results: str,
+    ) -> None:
         """
-        Creates comparison bar plots.
+        Creates comparison plots
+        for model evaluation metrics.
 
-        Compares TF-IDF and Word2Vec
-        for the same models.
+        Args:
+            path_to_results (str):
+                Directory for saving plots.
         """
         os.makedirs(path_to_results, exist_ok=True)
 
@@ -318,9 +387,17 @@ class ModelEvaluator:
             )
             plt.close()
 
-    def save_metric_confidence_table(self, path_to_results: str) -> None:
+    def save_metric_confidence_table(
+        self,
+        path_to_results: str,
+    ) -> None:
         """
-        Saves model metrics with 95% confidence intervals as an image table.
+        Saves a table containing model metrics
+        with 95% confidence intervals.
+
+        Args:
+            path_to_results (str):
+                Directory for saving the table.
         """
         os.makedirs(path_to_results, exist_ok=True)
 

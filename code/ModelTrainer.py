@@ -4,8 +4,9 @@ from sklearn.naive_bayes import MultinomialNB, GaussianNB
 from sklearn.svm import LinearSVC
 
 from scipy.sparse import csr_matrix
+from typing import Any
+
 import pandas as pd
-import numpy as np
 import joblib
 import os
 
@@ -26,8 +27,8 @@ class ModelTrainer:
 
     def train_log_reg(
         self,
-        x_train,
-        y_train,
+        x_train: csr_matrix,
+        y_train: pd.Series,
         random_state: int,
         model_name: str = "logistic_regression",
     ):
@@ -35,8 +36,9 @@ class ModelTrainer:
         Trains Logistic Regression model.
 
         Args:
-            x_train: Training features.
-            y_train: Training labels.
+            x_train (csr_matrix): Training features.
+            y_train (pd.Series): Training labels.
+            random_state (int): Random state for reproducibility.
             model_name (str): Name used for saving.
 
         Returns:
@@ -102,14 +104,20 @@ class ModelTrainer:
         return model
 
     def train_random_forest(
-        self, x_train, y_train, random_state: int, model_name: str = "random_forest"
+        self,
+        x_train: csr_matrix,
+        y_train: pd.Series,
+        random_state: int,
+        model_name: str = "random_forest",
     ):
         """
         Trains Random Forest classifier.
 
         Args:
-            x_train: Training features.
-            y_train: Training labels.
+            x_train (csr_matrix): Training features.
+            y_train (pd.Series): Training labels.
+            random_state (int): Random state for reproducibility.
+            model_name (str): Name used for saving.
 
         Returns:
             RandomForestClassifier: Trained model.
@@ -128,14 +136,20 @@ class ModelTrainer:
         return model
 
     def train_linear_svc(
-        self, x_train, y_train, random_state: int, model_name: str = "linear_svc"
+        self,
+        x_train: csr_matrix,
+        y_train: pd.Series,
+        random_state: int,
+        model_name: str = "linear_svc",
     ):
         """
         Trains Linear Support Vector Classifier.
 
         Args:
-            x_train: Training features.
-            y_train: Training labels.
+            x_train (csr_matrix): Training features.
+            y_train (pd.Series): Training labels.
+            random_state (int): Random state for reproducibility.
+            model_name (str): Name used for saving.
 
         Returns:
             LinearSVC: Trained model.
@@ -145,12 +159,12 @@ class ModelTrainer:
         self.models[model_name] = model
         return model
 
-    def save_model(self, model, path: str, filename: str) -> None:
+    def save_model(self, model: Any, path: str, filename: str) -> None:
         """
         Saves trained model to disk.
 
         Args:
-            model: Trained sklearn model.
+            model (Any): Trained sklearn model.
             path (str): Directory where model will be saved.
             filename (str): File name without extension.
         """

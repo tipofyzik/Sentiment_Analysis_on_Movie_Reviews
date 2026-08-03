@@ -346,5 +346,3 @@ if __name__ == "__main__":
     model_evaluator.save_metric_comparison_plots(path_to_results)
     model_evaluator.save_metric_confidence_table(path_to_results)
     print("Model evaluation accomplished.")
-
-    # TODO Check documentation for last classes.
