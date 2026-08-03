@@ -137,24 +137,20 @@ The evaluation pipeline automatically generates:
 
 
 **Key Takeaways**
-1. TF-IDF Significantly Outperforms Word2Vec Across All Metrics
-   - All classifiers trained on TF-IDF features achieved high performance: Accuracy 84.9% – 90.1%, F1-score 84.7% – 89.9%.
-   - All models using Word2Vec showed substantially worse results: Accuracy 63.0% – 67.8%, with F1-score dropping as low as 55.3%.
-   - Reason: For sentiment classification, classical $N$-grams and TF-IDF weighting are often more effective than simple average Word2Vec embeddings (Mean Word2Vec Pooling). Averaging tends to "wash out" key sentiment-bearing signals (e.g., "not good" or rare emotionally charged words).
-2. Top-Performing Models
-   - Logistic Regression + TF-IDF achieved the best overall performance among all evaluated configurations:
-      - Accuracy: $0.901 \pm 0.000$
-      - Precision: $0.901 \pm 0.000$
-      - Recall: $0.901 \pm 0.000$
-      - F1-score: $0.899 \pm 0.000$
-   - Linear SVC + TF-IDF is the closest runner-up, delivering nearly identical metrics (Accuracy ~89.9%, F1-score ~89.8%).
-   - Linear models with $L_1$/$L_2$ regularization excel at handling sparse, high-dimensional feature spaces created by TF-IDF.
-3. Imbalance / Calibration Issues in Word2Vec Models
-   - Notice the large gap between Accuracy/Recall and Precision/F1-score in the Word2Vec models. For instance, Logistic Regression (Word2Vec) has an Accuracy of $0.678$ but an F1-score of only $0.553$.
-   - This indicates that the model heavily favors the majority class or suffers from low precision on one of the classes.
-4. High Stability and Reproducibility
-   - The 95% confidence interval bounds are close to zero ($\pm 0.000$ or $\pm 0.002$), proving that the performance is highly stable across 10 independent runs (low variance under different seeds/splits).
 
+1. **Top-Performing Model Pairs (TF-IDF Combinations)**
+   - **Logistic Regression + TF-IDF** and **Linear SVC + TF-IDF** emerged as the clear leaders, demonstrating dominant performance across all evaluated metrics with virtually identical top-tier results.
+   - Linear architectures pair exceptionally well with TF-IDF because the sparse, high-dimensional feature space allows linear hyperplanes to cleanly separate sentiment boundaries. Their built-in penalty mechanisms effectively prevent individual rare words from distorting the decision boundary.
+2. **Worst-Performing Model Pairs (Word2Vec Combinations)**
+   - **Logistic Regression + Word2Vec** and **Linear SVC + Word2Vec** suffered a catastrophic drop in performance, particularly in Precision and overall F1-score.
+   - **Random Forest + Word2Vec** and **Gaussian Naive Bayes + Word2Vec** recorded the lowest overall predictive accuracy among all configurations.
+   - Averaging dense word vectors creates a severe architectural bottleneck. Simple mean pooling washes out crucial local sentiment signals—such as negations and emotionally charged modifiers—leaving the classifiers with heavily blurred representations.
+3. **Metric Imbalance and Precision Degradation**
+   - The weak Word2Vec pairs exposed a severe divergence between basic Accuracy and F1-score, with F1-score dropping significantly below accuracy levels.
+   - This sharp metric gap reveals that Word2Vec models suffer from poor calibration, heavily leaning toward predicting a single class and generating a high volume of false positives.
+4. **High Statistical Stability**
+   - Across all 10 independent runs, every model pair displayed negligible variance, with confidence intervals remaining essentially flat.
+   - The performance gap between TF-IDF and Word2Vec pairs is driven purely by fundamental feature representation limits rather than random initialization or data split noise.
 
 ## 6.2 Average Performance over 10 Runs (70/30 train/test split)
 <table>
@@ -178,9 +174,32 @@ The evaluation pipeline automatically generates:
 
 <img width="2850" height="1056" alt="model_metrics_confidence_table" src="https://github.com/user-attachments/assets/a2dfdf8b-f3cd-4dba-8a38-88b1667ed5b1" />
 
-# 7. Conclusions
+**Key Takeaways**
+1. **Top-Performing Model Pairs (TF-IDF Combinations)**
+   - **Logistic Regression + TF-IDF** and **Linear SVC + TF-IDF** tied as the undisputed top performers, reaching matching, industry-grade scores across all evaluated metrics.
+   - Expanding the training portion allowed linear models with TF-IDF to further refine feature weights, enabling decision boundaries to isolate subtle sentiment markers across the high-dimensional feature space.
+2. **Worst-Performing Model Pairs (Word2Vec Combinations)**
+   - **Logistic Regression + Word2Vec** and **Linear SVC + Word2Vec** remained the weakest configurations, experiencing a steep drop in precision and overall F1-score relative to headline accuracy.
+   - **Random Forest + Word2Vec** and **Gaussian Naive Bayes + Word2Vec** hovered near the absolute bottom for overall classification accuracy.
+   - Additional training data failed to salvage Word2Vec performance because mean pooling creates an unrecoverable representation bottleneck, irreversibly flattening critical sentence-level sentiment signals.
+3. **Metric Divergence and Prediction Bias**
+   - The Word2Vec-based pairs continued to exhibit a pronounced gap between headline accuracy and balanced metrics, with precision and harmonic scores lagging significantly behind recall.
+   - This ongoing metric disparity indicates that dense vector averaging leaves models poorly calibrated, prone to class imbalance sensitivity and high false-positive rates.
+4. **Near-Zero Variance and High Reproducibility**
+   - Performance metrics across all model pairs remained exceptionally stable across repeated evaluations, with confidence intervals showing virtually no variance.
+   - The stark performance divide between TF-IDF and Word2Vec pairs is purely structural, confirming that feature extraction design—rather than random sampling noise—dictates model success.
 
-
-
+## 6.3 Comparative Analysis: 20/80 vs. 70/30 Train/Test Split
+1. **Overall Performance Shifts**
+- **Linear TF-IDF Models Demonstrated Predictable Gains:** Moving from 20% to 70% training data yielded consistent performance improvements for the top-tier pairs (**Logistic Regression + TF-IDF** and **Linear SVC + TF-IDF**), showing metric gains across accuracy, precision, recall, and F1-score.
+- **Convergence at Scale:** While Logistic Regression slightly edged out Linear SVC in the 20/80 split, increasing training data eliminated this gap, causing both linear models to converge onto identical top-tier performance metrics.
+- **Word2Vec Stagnation:** Expanding the training set provided virtually no benefit to Word2Vec pairs, proving that mean pooling creates a hard representation ceiling that additional data cannot resolve.
+2. **Identified Anomalies and Unexpected Behaviors**
+   - **Performance Dip in Random Forest + TF-IDF:** Despite a 3.5x increase in training data, **Random Forest + TF-IDF** experienced a performance drop across all metrics (Accuracy and F1-score both dipped slightly).
+   - *Cause:* Decision trees without strict hyperparameter tuning (e.g., fixed depth or tree count) tend to overfit high-dimensional, sparse TF-IDF feature spaces when fed larger training samples, creating overly complex splits that degrade generalization on the test set.
+   - **Precision Regression in Linear Word2Vec Models:** For **Logistic Regression + Word2Vec** and **Linear SVC + Word2Vec**, Precision slightly decreased while Accuracy, Recall, and F1-score remained completely frozen.
+   - *Cause:* Adding more training samples to an uncalibrated model using averaged embeddings causes the linear boundary to lean further into predicting the dominant class, slightly worsening the false-positive rate (Precision) without shifting overall recall.
+   - **Flatline Metrics in Linear Word2Vec Pairs:** Despite a massive increase in training sample size, Accuracy ($0.678$), Recall ($0.678$), and F1-score ($0.553$) for linear models on Word2Vec remained perfectly identical across splits.
+   - *Cause:* Simple vector averaging reduces reviews to a single centroid, compressing data so heavily that the linear classifier reaches maximum capacity almost immediately—rendering 80% of additional training data redundant.
 
 
