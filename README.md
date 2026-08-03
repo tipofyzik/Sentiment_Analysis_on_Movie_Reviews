@@ -135,6 +135,25 @@ The evaluation pipeline automatically generates:
 
 <img width="2850" height="1056" alt="model_metrics_confidence_table" src="https://github.com/user-attachments/assets/ba2b9e3c-da16-4646-9297-b7143f07ecd8" />
 
+Key Takeaways
+1. TF-IDF Significantly Outperforms Word2Vec Across All Metrics
+- All classifiers trained on TF-IDF features achieved high performance: Accuracy 84.9% – 90.1%, F1-score 84.7% – 89.9%.
+- All models using Word2Vec showed substantially worse results: Accuracy 63.0% – 67.8%, with F1-score dropping as low as 55.3%.
+- Reason: For sentiment classification, classical $N$-grams and TF-IDF weighting are often more effective than simple average Word2Vec embeddings (Mean Word2Vec Pooling). Averaging tends to "wash out" key sentiment-bearing signals (e.g., "not good" or rare emotionally charged words).
+2. Top-Performing Models
+- Logistic Regression + TF-IDF achieved the best overall performance among all evaluated configurations:
+   - Accuracy: $0.901 \pm 0.000$
+   - Precision: $0.901 \pm 0.000$
+   - Recall: $0.901 \pm 0.000$
+   - F1-score: $0.899 \pm 0.000$
+- Linear SVC + TF-IDF is the closest runner-up, delivering nearly identical metrics (Accuracy ~89.9%, F1-score ~89.8%).
+- Linear models with $L_1$/$L_2$ regularization excel at handling sparse, high-dimensional feature spaces created by TF-IDF.
+3. Imbalance / Calibration Issues in Word2Vec Models
+- Notice the large gap between Accuracy/Recall and Precision/F1-score in the Word2Vec models. For instance, Logistic Regression (Word2Vec) has an Accuracy of $0.678$ but an F1-score of only $0.553$.
+- This indicates that the model heavily favors the majority class or suffers from low precision on one of the classes.
+4. High Stability and Reproducibility
+- The 95% confidence interval bounds are close to zero ($\pm 0.000$ or $\pm 0.002$), proving that the performance is highly stable across 10 independent runs (low variance under different seeds/splits).
+
 
 ## 6.2 Average Performance over 10 Runs (70/30 train/test split)
 <table>
