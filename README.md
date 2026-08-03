@@ -196,10 +196,10 @@ The evaluation pipeline automatically generates:
    - **Word2Vec Stagnation:** Expanding the training set provided virtually no benefit to Word2Vec pairs, proving that mean pooling creates a hard representation ceiling that additional data cannot resolve.
 2. **Identified Anomalies and Unexpected Behaviors**
    - **Performance Dip in Random Forest + TF-IDF:** Despite a 3.5x increase in training data, **Random Forest + TF-IDF** experienced a performance drop across all metrics (Accuracy and F1-score both dipped slightly).
-   - *Cause:* Decision trees without strict hyperparameter tuning (e.g., fixed depth or tree count) tend to overfit high-dimensional, sparse TF-IDF feature spaces when fed larger training samples, creating overly complex splits that degrade generalization on the test set.
+      - *Cause:* Decision trees without strict hyperparameter tuning (e.g., fixed depth or tree count) tend to overfit high-dimensional, sparse TF-IDF feature spaces when fed larger training samples, creating overly complex splits that degrade generalization on the test set.
    - **Precision Regression in Linear Word2Vec Models:** For **Logistic Regression + Word2Vec** and **Linear SVC + Word2Vec**, Precision slightly decreased while Accuracy, Recall, and F1-score remained completely frozen.
-   - *Cause:* Adding more training samples to an uncalibrated model using averaged embeddings causes the linear boundary to lean further into predicting the dominant class, slightly worsening the false-positive rate (Precision) without shifting overall recall.
+      - *Cause:* Adding more training samples to an uncalibrated model using averaged embeddings causes the linear boundary to lean further into predicting the dominant class, slightly worsening the false-positive rate (Precision) without shifting overall recall.
    - **Flatline Metrics in Linear Word2Vec Pairs:** Despite a massive increase in training sample size, Accuracy ($0.678$), Recall ($0.678$), and F1-score ($0.553$) for linear models on Word2Vec remained perfectly identical across splits.
-   - *Cause:* Simple vector averaging reduces reviews to a single centroid, compressing data so heavily that the linear classifier reaches maximum capacity almost immediately—rendering 80% of additional training data redundant.
+      - *Cause:* Simple vector averaging reduces reviews to a single centroid, compressing data so heavily that the linear classifier reaches maximum capacity almost immediately—rendering 80% of additional training data redundant.
 
 
