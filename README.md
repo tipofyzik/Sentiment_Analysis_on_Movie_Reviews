@@ -135,7 +135,7 @@ The evaluation pipeline automatically generates:
 
 <img width="2850" height="1056" alt="model_metrics_confidence_table" src="https://github.com/user-attachments/assets/ba2b9e3c-da16-4646-9297-b7143f07ecd8" />
 
-Key Takeaways
+Key Takeaways  
 1. TF-IDF Significantly Outperforms Word2Vec Across All Metrics
 - All classifiers trained on TF-IDF features achieved high performance: Accuracy 84.9% – 90.1%, F1-score 84.7% – 89.9%.
 - All models using Word2Vec showed substantially worse results: Accuracy 63.0% – 67.8%, with F1-score dropping as low as 55.3%.
