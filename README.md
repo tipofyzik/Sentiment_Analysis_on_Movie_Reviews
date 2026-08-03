@@ -191,9 +191,9 @@ The evaluation pipeline automatically generates:
 
 ## 6.3 Comparative Analysis: 20/80 vs. 70/30 Train/Test Split
 1. **Overall Performance Shifts**
-- **Linear TF-IDF Models Demonstrated Predictable Gains:** Moving from 20% to 70% training data yielded consistent performance improvements for the top-tier pairs (**Logistic Regression + TF-IDF** and **Linear SVC + TF-IDF**), showing metric gains across accuracy, precision, recall, and F1-score.
-- **Convergence at Scale:** While Logistic Regression slightly edged out Linear SVC in the 20/80 split, increasing training data eliminated this gap, causing both linear models to converge onto identical top-tier performance metrics.
-- **Word2Vec Stagnation:** Expanding the training set provided virtually no benefit to Word2Vec pairs, proving that mean pooling creates a hard representation ceiling that additional data cannot resolve.
+   - **Linear TF-IDF Models Demonstrated Predictable Gains:** Moving from 20% to 70% training data yielded consistent performance improvements for the top-tier pairs (**Logistic Regression + TF-IDF** and **Linear SVC + TF-IDF**), showing metric gains across accuracy, precision, recall, and F1-score.
+   - **Convergence at Scale:** While Logistic Regression slightly edged out Linear SVC in the 20/80 split, increasing training data eliminated this gap, causing both linear models to converge onto identical top-tier performance metrics.
+   - **Word2Vec Stagnation:** Expanding the training set provided virtually no benefit to Word2Vec pairs, proving that mean pooling creates a hard representation ceiling that additional data cannot resolve.
 2. **Identified Anomalies and Unexpected Behaviors**
    - **Performance Dip in Random Forest + TF-IDF:** Despite a 3.5x increase in training data, **Random Forest + TF-IDF** experienced a performance drop across all metrics (Accuracy and F1-score both dipped slightly).
    - *Cause:* Decision trees without strict hyperparameter tuning (e.g., fixed depth or tree count) tend to overfit high-dimensional, sparse TF-IDF feature spaces when fed larger training samples, creating overly complex splits that degrade generalization on the test set.
