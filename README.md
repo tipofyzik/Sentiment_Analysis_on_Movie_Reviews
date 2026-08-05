@@ -44,13 +44,14 @@ The project consists of three main scripts that cover the complete machine learn
 - **SAR14ConverterToCSV.py**: Run this script before executing the main application. The original SAR14 dataset is distributed in .txt format, while the project expects a .csv file for efficient processing. This script converts the original dataset into the required format.
 - **config.yml**: This configuration file contains all parameters required by the project, including dataset locations, preprocessing options, feature extraction settings, model training parameters, and evaluation options. A detailed description of each parameter is provided in Section 4.2 – Configuration File.
 - **app.py**: This is the project's main entry point. It executes the complete machine learning pipeline:  
-            1. loads the datasets;  
-            2. performs optional dataset analysis;  
-            3. preprocesses the text data;  
-            4. extracts features using TF-IDF and/or Word2Vec;  
-            5. trains the selected supervised learning models;  
-            6. evaluates model performance;  
-            7. generates classification reports, confusion matrices, comparison plots, and summary tables.  
+      1. loads the datasets;  
+      2. performs optional dataset analysis;  
+      3. preprocesses the text data;  
+      4. extracts features using TF-IDF and/or Word2Vec;  
+      5. trains the selected supervised learning models;  
+      6. evaluates model performance;  
+      7. generates classification reports, confusion matrices, comparison plots, and summary tables.
+
 - **PredictCustomReviewApp.py**: this script launches a graphical user interface that allows users to enter a custom movie review and obtain its predicted sentiment (positive or negative) using one of the trained models.  
 
 ## 4 Project structure
