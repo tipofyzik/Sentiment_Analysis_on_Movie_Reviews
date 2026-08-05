@@ -51,8 +51,7 @@ The project consists of three main scripts that cover the complete machine learn
 5. trains the selected supervised learning models;
 6. evaluates model performance;
 7. generates classification reports, confusion matrices, comparison plots, and summary tables.
-
-After the models have been trained, PredictCustomReviewApp.py can be executed. This script launches a graphical user interface that allows users to enter a custom movie review and obtain its predicted sentiment (positive or negative) using one of the trained models.  
+- **PredictCustomReviewApp.py**: this script launches a graphical user interface that allows users to enter a custom movie review and obtain its predicted sentiment (positive or negative) using one of the trained models.  
 
 ## 4 Project structure
 ```text
